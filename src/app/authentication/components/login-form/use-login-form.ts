@@ -35,9 +35,17 @@ const useLoginForm = () => {
     );
   };
 
+  const handleSignInWithGoogle = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/dashboard",
+    });
+  };
+
   return {
     form,
     onSubmit,
+    handleSignInWithGoogle,
   };
 };
 

@@ -21,10 +21,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import GoogleIcon from "./google-icon";
 import useSignUpForm from "./use-login-form";
 
 const LoginForm = () => {
-  const { onSubmit, form } = useSignUpForm();
+  const { handleSignInWithGoogle, onSubmit, form } = useSignUpForm();
 
   return (
     <Card>
@@ -67,7 +68,7 @@ const LoginForm = () => {
               )}
             />
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex flex-col gap-2">
             <Button
               type="submit"
               className="w-full"
@@ -78,6 +79,15 @@ const LoginForm = () => {
               ) : (
                 "Entrar"
               )}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={handleSignInWithGoogle}
+            >
+              <GoogleIcon />
+              Entrar com Google
             </Button>
           </CardFooter>
         </form>
