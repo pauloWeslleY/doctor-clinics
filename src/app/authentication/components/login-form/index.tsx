@@ -1,5 +1,7 @@
 "use client";
 
+import { Loader2Icon } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -66,8 +68,16 @@ const LoginForm = () => {
             />
           </CardContent>
           <CardFooter>
-            <Button type="submit" className="w-full cursor-pointer">
-              Login
+            <Button
+              type="submit"
+              className="w-full cursor-pointer"
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting ? (
+                <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                "Entrar"
+              )}
             </Button>
           </CardFooter>
         </form>
