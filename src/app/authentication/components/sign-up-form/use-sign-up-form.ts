@@ -32,11 +32,11 @@ const useSignUpForm = () => {
         },
         onError: (ctx) => {
           if (ctx.error.code === "USER_ALREADY_EXISTS") {
-            toast.error("E-mail ja cadastrado");
+            toast.error("E-mail ja cadastrado.");
             return;
           }
 
-          toast.error("Error ao criar conta");
+          toast.error("Error ao criar conta.");
         },
       },
     );
