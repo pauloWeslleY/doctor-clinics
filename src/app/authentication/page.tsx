@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { auth } from "@/lib/auth";
+import { Routes } from "@/lib/routes";
 
 import LoginForm from "./components/login-form";
 import SignUpForm from "./components/sign-up-form";
@@ -18,7 +19,7 @@ const AuthenticationPage = async () => {
   });
 
   if (session?.user) {
-    redirect("/dashboard");
+    redirect(Routes.Dashboard);
   }
 
   return (

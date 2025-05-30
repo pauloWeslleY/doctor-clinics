@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { db } from "@/db";
 import { usersToClinicsTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
+import { Routes } from "@/lib/routes";
 
 import SignOutButton from "./components/sign-out-button";
 
@@ -14,7 +15,7 @@ const DashboardPage = async () => {
   });
 
   if (!session?.user) {
-    redirect("/authentication");
+    redirect(Routes.Authentication);
   }
 
   // Preciso pegar as clínicas do usuário logado
@@ -23,7 +24,7 @@ const DashboardPage = async () => {
   });
 
   if (clinics.length === 0) {
-    redirect("/clinic-form");
+    redirect(Routes.ClinicForm);
   }
 
   return (

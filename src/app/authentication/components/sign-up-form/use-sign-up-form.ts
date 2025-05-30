@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { authClient } from "@/lib/auth-client";
+import { Routes } from "@/lib/routes";
 
 import { SignUpFormSchema } from "./sign-up-form.schema";
 import { type SignUpFormSchemaProps } from "./sign-up-form.type";
@@ -28,7 +29,7 @@ const useSignUpForm = () => {
       },
       {
         onSuccess: () => {
-          router.push("/dashboard");
+          router.push(Routes.Dashboard);
         },
         onError: (ctx) => {
           if (ctx.error.code === "USER_ALREADY_EXISTS") {
