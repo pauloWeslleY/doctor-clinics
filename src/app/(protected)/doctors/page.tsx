@@ -1,4 +1,6 @@
 import { PlusIcon } from "lucide-react";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 import {
   LayoutActions,
@@ -10,8 +12,22 @@ import {
   LayoutRoot,
 } from "@/components/root-layout";
 import { Button } from "@/components/ui/button";
+import { auth } from "@/lib/auth";
+import { Routes } from "@/lib/routes";
 
-const DoctorsPage = () => {
+const DoctorsPage = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session?.user) {
+    redirect(Routes.Authentication);
+  }
+
+  if (!session?.user.clinic) {
+    redirect(Routes.ClinicForm);
+  }
+
   return (
     <LayoutRoot>
       <LayoutHeader>
