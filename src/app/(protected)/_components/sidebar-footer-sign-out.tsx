@@ -40,7 +40,7 @@ const SidebarFooterSignOut = () => {
   };
 
   return (
-    <SidebarFooter>
+    <SidebarFooter className="mb-2">
       <SidebarMenu>
         <SidebarMenuItem>
           <div className="flex w-full flex-row justify-between">
