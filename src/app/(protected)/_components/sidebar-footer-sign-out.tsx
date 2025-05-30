@@ -21,6 +21,13 @@ import { Routes } from "@/lib/routes";
 
 const SidebarFooterSignOut = () => {
   const router = useRouter();
+  const session = authClient.useSession();
+
+  const loadUserAuthClinic = {
+    clinicName: session.data?.user?.clinic.name || "Sem clínica",
+    userEmail: session.data?.user?.email || "Sem e-mail",
+    username: session.data?.user?.name[0].toUpperCase() || "Sem nome",
+  };
 
   const handleSignOutSidebarFooter = async () => {
     await authClient.signOut({
@@ -38,14 +45,16 @@ const SidebarFooterSignOut = () => {
         <SidebarMenuItem>
           <div className="flex w-full flex-row justify-between">
             <div className="flex flex-row items-center gap-2">
-              <Avatar className="size-8">
-                <AvatarFallback>CN</AvatarFallback>
+              <Avatar>
+                <AvatarFallback>{loadUserAuthClinic.username}</AvatarFallback>
               </Avatar>
 
               <div>
-                <h3 className="text-sm leading-none font-bold">Clínica Care</h3>
-                <p className="text-muted-foreground text-xs leading-none">
-                  mail@example.com
+                <h3 className="text-sm leading-none font-bold">
+                  {loadUserAuthClinic.clinicName}
+                </h3>
+                <p className="text-muted-foreground w-[148px] truncate text-xs leading-none">
+                  {loadUserAuthClinic.userEmail}
                 </p>
               </div>
             </div>
