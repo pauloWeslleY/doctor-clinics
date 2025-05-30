@@ -19,12 +19,9 @@ const useLoginForm = () => {
     },
   });
 
-  const onSubmit = async (values: LoginFormSchemaProps) => {
+  const onSubmit = async ({ email, password }: LoginFormSchemaProps) => {
     await authClient.signIn.email(
-      {
-        email: values.email,
-        password: values.password,
-      },
+      { email, password },
       {
         onSuccess: () => {
           router.push(Routes.Dashboard);

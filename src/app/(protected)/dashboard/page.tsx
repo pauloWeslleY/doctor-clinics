@@ -21,7 +21,6 @@ const DashboardPage = async () => {
 
   return (
     <div>
-      <h1>DashboardPage</h1>
       <h1>{session?.user?.name}</h1>
       <h1>{session?.user?.email}</h1>
 

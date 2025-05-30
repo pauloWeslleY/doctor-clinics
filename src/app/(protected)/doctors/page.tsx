@@ -1,4 +1,3 @@
-import { PlusIcon } from "lucide-react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -11,9 +10,10 @@ import {
   LayoutHeaderTitle,
   LayoutRoot,
 } from "@/components/root-layout";
-import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
 import { Routes } from "@/lib/routes";
+
+import CreateDoctor from "./components/create-doctor-dialog";
 
 const DoctorsPage = async () => {
   const session = await auth.api.getSession({
@@ -38,10 +38,7 @@ const DoctorsPage = async () => {
           </LayoutHeaderDescription>
         </LayoutHeaderContent>
         <LayoutActions>
-          <Button>
-            <PlusIcon />
-            Adicionar médico
-          </Button>
+          <CreateDoctor />
         </LayoutActions>
       </LayoutHeader>
       <LayoutContent>Médicos</LayoutContent>
