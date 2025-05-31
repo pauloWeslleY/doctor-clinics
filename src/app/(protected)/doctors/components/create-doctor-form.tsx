@@ -1,3 +1,4 @@
+import { Loader2Icon } from "lucide-react";
 import { NumericFormat } from "react-number-format";
 
 import { Button } from "@/components/ui/button";
@@ -26,8 +27,16 @@ import { timeOptions } from "../constants/hours";
 import { weekDays } from "../constants/week-days";
 import useCreateDoctorForm from "./use-create-doctor-form";
 
-const CreateDoctorForm = () => {
-  const { form, onSubmit } = useCreateDoctorForm();
+interface CreateDoctorFormProps {
+  handleOpenDialogCreateDoctor: (open: boolean) => void;
+}
+
+const CreateDoctorForm = ({
+  handleOpenDialogCreateDoctor,
+}: CreateDoctorFormProps) => {
+  const { form, onSubmit, createDoctorAction } = useCreateDoctorForm(
+    handleOpenDialogCreateDoctor,
+  );
 
   return (
     <Form {...form}>
@@ -221,7 +230,16 @@ const CreateDoctorForm = () => {
         />
 
         <DialogFooter>
-          <Button type="submit">Adicionar</Button>
+          <Button type="submit" disabled={createDoctorAction.isPending}>
+            {createDoctorAction.isPending ? (
+              <>
+                <Loader2Icon className="h-4 w-4 animate-spin" />
+                Adicionando...
+              </>
+            ) : (
+              "Adicionar"
+            )}
+          </Button>
         </DialogFooter>
       </form>
     </Form>

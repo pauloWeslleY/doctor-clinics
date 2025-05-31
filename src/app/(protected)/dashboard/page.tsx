@@ -15,7 +15,7 @@ const DashboardPage = async () => {
     redirect(Routes.Authentication);
   }
 
-  if (session?.user.clinic) {
+  if (!session?.user.clinic) {
     redirect(Routes.ClinicForm);
   }
 

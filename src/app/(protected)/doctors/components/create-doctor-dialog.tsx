@@ -1,6 +1,7 @@
 "use client";
 
 import { PlusIcon } from "lucide-react";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,8 +16,13 @@ import {
 import CreateDoctorForm from "./create-doctor-form";
 
 const CreateDoctor = () => {
+  const [openDialogCreateDoctor, setOpenDialogCreateDoctor] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog
+      open={openDialogCreateDoctor}
+      onOpenChange={setOpenDialogCreateDoctor}
+    >
       <DialogTrigger asChild>
         <Button>
           <PlusIcon />
@@ -29,7 +35,9 @@ const CreateDoctor = () => {
           <DialogDescription>Adicione um novo médico.</DialogDescription>
         </DialogHeader>
 
-        <CreateDoctorForm />
+        <CreateDoctorForm
+          handleOpenDialogCreateDoctor={setOpenDialogCreateDoctor}
+        />
       </DialogContent>
     </Dialog>
   );
