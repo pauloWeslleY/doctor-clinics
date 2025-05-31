@@ -15,6 +15,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Routes } from "@/lib/routes";
+import { cn } from "@/lib/utils";
 
 const items = [
   {
@@ -50,8 +51,18 @@ const AppSidebarMenu = () => {
           <SidebarMenuItem key={item.title}>
             <SidebarMenuButton asChild isActive={isActiveMenu}>
               <Link href={item.url}>
-                <item.icon className={isActiveMenu ? "text-primary" : ""} />
-                <span className={isActiveMenu ? "text-primary font-bold" : ""}>
+                <item.icon
+                  className={cn(
+                    "!h-5 !w-5",
+                    isActiveMenu ? "text-primary" : "",
+                  )}
+                />
+                <span
+                  className={cn(
+                    "!text-[1.1rem]",
+                    isActiveMenu ? "text-primary font-bold" : "",
+                  )}
+                >
                   {item.title}
                 </span>
               </Link>

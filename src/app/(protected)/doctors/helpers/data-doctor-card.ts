@@ -1,7 +1,7 @@
 import { type doctorsTable } from "@/db/schema";
 import { formatCurrencyInCents } from "@/helpers/format-currency-in-cents";
 
-import { getAvailability } from "../../helpers/availability";
+import { getAvailability } from "./availability";
 
 export function formatDataDoctor(doctor: typeof doctorsTable.$inferSelect) {
   const availability = getAvailability(doctor);
@@ -20,6 +20,8 @@ export function formatDataDoctor(doctor: typeof doctorsTable.$inferSelect) {
       time: `Das ${availability.from.format("HH:mm")} às ${availability.to.format("HH:mm")}`,
     };
   };
+
+  console.log({ doctorInitials: doctorInitials() });
 
   return {
     availability,

@@ -28,8 +28,11 @@ import { weekDays } from "../../constants/week-days";
 import { type UpdateDoctorFormProps } from "./doctor.type";
 import useUpdateDoctorForm from "./use-update-doctor-form";
 
-const UpdateDoctorForm = (props: UpdateDoctorFormProps) => {
-  const { form, onSubmit, updateDoctorAction } = useUpdateDoctorForm(props);
+const UpdateDoctorForm = ({ doctor, onSuccess }: UpdateDoctorFormProps) => {
+  const { form, onSubmit, updateDoctorAction } = useUpdateDoctorForm({
+    doctor,
+    onSuccess,
+  });
 
   return (
     <Form {...form}>

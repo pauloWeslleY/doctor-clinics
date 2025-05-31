@@ -16,7 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { type DoctorProps, type TabsDoctorDetailType } from "./doctor.type";
 import DoctorDetail from "./doctor-detail";
-import UpdateDoctorForm from "./update-doctor-form";
+import UpdateDoctorForm from "./doctor-update-form";
 
 export const MenuTabsDialogDoctorDetail = {
   detail: "detail",

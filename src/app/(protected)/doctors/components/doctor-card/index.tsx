@@ -11,9 +11,10 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
-import { formatDataDoctor } from "./data-doctor-card";
+import { formatDataDoctor } from "../../helpers/data-doctor-card";
 import DialogDoctorDetail from "./dialog-doctor-detail";
 import { type DoctorProps } from "./doctor.type";
+import DoctorAlertDelete from "./doctor-alert-delete";
 
 const DoctorCard = ({ doctor }: DoctorProps) => {
   const {
@@ -77,6 +78,8 @@ const DoctorCard = ({ doctor }: DoctorProps) => {
             availableToTime: availability.to.format("HH:mm"),
           }}
         />
+
+        <DoctorAlertDelete id={doctor.id} />
       </CardFooter>
     </Card>
   );

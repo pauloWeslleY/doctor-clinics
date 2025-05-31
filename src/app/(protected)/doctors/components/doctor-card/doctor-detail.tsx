@@ -4,7 +4,7 @@ import { CalendarIcon, ClockIcon, DollarSignIcon } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 
-import { formatDataDoctor } from "./data-doctor-card";
+import { formatDataDoctor } from "../../helpers/data-doctor-card";
 import { type DoctorProps } from "./doctor.type";
 
 const DoctorDetail = ({ doctor }: DoctorProps) => {
