@@ -1,50 +1,39 @@
+import { AvatarFallback } from "@radix-ui/react-avatar";
 import { CalendarIcon, ClockIcon, DollarSignIcon } from "lucide-react";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Avatar } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 
 import { formatDataDoctor } from "./data-doctor-card";
-import DialogDoctorDetail from "./dialog-doctor-detail";
 import { type DoctorProps } from "./doctor.type";
 
-const DoctorCard = ({ doctor }: DoctorProps) => {
+const DoctorDetail = ({ doctor }: DoctorProps) => {
   const {
-    availability,
     doctorInitials,
     selectedAvailabilityCurrent,
     formatAppointmentPriceInCents,
   } = formatDataDoctor(doctor);
 
   return (
-    <Card className="w-full max-w-xs">
-      <CardHeader>
-        <div className="flex items-center gap-3">
-          <Avatar className="h-15 w-15">
-            <AvatarFallback>{doctorInitials}</AvatarFallback>
-          </Avatar>
+    <div className="my-2 space-y-4">
+      <div className="flex items-center gap-3">
+        <Avatar className="h-15 w-15 bg-gray-100">
+          <AvatarFallback>{doctorInitials}</AvatarFallback>
+        </Avatar>
 
-          <div className="space-y-1.5">
-            <CardTitle className="text-sm font-medium">{doctor.name}</CardTitle>
-            <CardDescription className="text-muted-foreground text-sm">
-              {doctor.specialty}
-            </CardDescription>
-          </div>
+        <div className="space-y-1.5">
+          <h3 className="text-sm font-medium">{doctor.name}</h3>
+          <span className="text-muted-foreground text-sm">
+            {doctor.specialty}
+          </span>
         </div>
-      </CardHeader>
+      </div>
 
       <div className="px-6">
         <Separator />
       </div>
 
-      <CardContent className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3">
         <div className="bg-primary-foreground flex w-fit flex-row items-center gap-2 rounded-md p-1">
           <CalendarIcon className="mr-1 size-4" />
           <span className="text-accent-foreground text-md font-medium">
@@ -63,23 +52,9 @@ const DoctorCard = ({ doctor }: DoctorProps) => {
             {formatAppointmentPriceInCents}
           </span>
         </div>
-      </CardContent>
-
-      <div className="px-6">
-        <Separator />
       </div>
-
-      <CardFooter className="flex-col gap-2">
-        <DialogDoctorDetail
-          doctor={{
-            ...doctor,
-            availableFromTime: availability.from.format("HH:mm"),
-            availableToTime: availability.to.format("HH:mm"),
-          }}
-        />
-      </CardFooter>
-    </Card>
+    </div>
   );
 };
 
-export default DoctorCard;
+export default DoctorDetail;

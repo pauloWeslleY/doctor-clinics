@@ -4,6 +4,8 @@ import { formatCurrencyInCents } from "@/helpers/format-currency-in-cents";
 import { getAvailability } from "../../helpers/availability";
 
 export function formatDataDoctor(doctor: typeof doctorsTable.$inferSelect) {
+  const availability = getAvailability(doctor);
+
   const doctorInitials = () => {
     const doctorName = doctor.name.split(" ");
     return doctorName
@@ -13,14 +15,14 @@ export function formatDataDoctor(doctor: typeof doctorsTable.$inferSelect) {
   };
 
   const selectedAvailabilityCurrent = () => {
-    const availability = getAvailability(doctor);
     return {
       weekDay: `${availability.from.format("dddd")} a ${availability.to.format("dddd")}`,
-      time: `Das ${availability.from.format("H")} as ${availability.to.format("H")}`,
+      time: `Das ${availability.from.format("HH:mm")} às ${availability.to.format("HH:mm")}`,
     };
   };
 
   return {
+    availability,
     doctorInitials: doctorInitials(),
     selectedAvailabilityCurrent: selectedAvailabilityCurrent(),
     formatAppointmentPriceInCents: formatCurrencyInCents(
