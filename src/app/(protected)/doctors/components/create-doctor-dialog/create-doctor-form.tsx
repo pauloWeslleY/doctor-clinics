@@ -22,9 +22,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { medicalSpecialties } from "../constants";
-import { timeOptions } from "../constants/hours";
-import { weekDays } from "../constants/week-days";
+import { medicalSpecialties } from "../../constants";
+import { timeOptions } from "../../constants/hours";
+import { weekDays } from "../../constants/week-days";
 import useCreateDoctorForm from "./use-create-doctor-form";
 
 interface CreateDoctorFormProps {

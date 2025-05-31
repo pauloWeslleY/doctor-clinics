@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -10,10 +11,13 @@ import {
   LayoutHeaderTitle,
   LayoutRoot,
 } from "@/components/root-layout";
+import { db } from "@/db";
+import { doctorsTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { Routes } from "@/lib/routes";
 
 import CreateDoctor from "./components/create-doctor-dialog";
+import DoctorCard from "./components/doctor-card";
 
 const DoctorsPage = async () => {
   const session = await auth.api.getSession({
@@ -28,6 +32,10 @@ const DoctorsPage = async () => {
     redirect(Routes.ClinicForm);
   }
 
+  const doctors = await db.query.doctorsTable.findMany({
+    where: eq(doctorsTable.clinicId, session?.user.clinic.id),
+  });
+
   return (
     <LayoutRoot>
       <LayoutHeader>
@@ -41,7 +49,11 @@ const DoctorsPage = async () => {
           <CreateDoctor />
         </LayoutActions>
       </LayoutHeader>
-      <LayoutContent>Médicos</LayoutContent>
+      <LayoutContent className="flex-wrap">
+        {doctors.map((doctor) => {
+          return <DoctorCard key={doctor.id} doctor={doctor} />;
+        })}
+      </LayoutContent>
     </LayoutRoot>
   );
 };

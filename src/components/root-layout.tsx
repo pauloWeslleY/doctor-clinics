@@ -1,67 +1,90 @@
 import { type ComponentProps } from "react";
 
-export const LayoutRoot = (props: ComponentProps<"div">) => {
+import { cn } from "@/lib/utils";
+
+export const LayoutRoot = ({ className, ...rest }: ComponentProps<"div">) => {
   return (
-    <div {...props} data-slot="layout-root" className="w-full space-y-6 p-6" />
+    <div
+      {...rest}
+      role="main"
+      id="layout-root"
+      data-slot="layout-root"
+      className={cn("w-full space-y-6 p-6", className)}
+    />
   );
 };
 
-export const LayoutHeader = ({ ...props }: ComponentProps<"div">) => {
+export const LayoutHeader = (props: ComponentProps<"div">) => {
+  const { className, ...rest } = props;
   return (
     <div
-      {...props}
-      className="flex w-full items-center justify-between"
+      {...rest}
+      id="layout-header"
       data-slot="layout-header"
+      className={cn("flex w-full items-center justify-between", className)}
     />
   );
 };
 
 export const LayoutHeaderContent = (props: ComponentProps<"div">) => {
+  const { className, ...rest } = props;
   return (
     <div
-      {...props}
+      {...rest}
+      id="layout-header-content"
       data-slot="layout-header-content"
-      className="w-full space-y-1"
+      className={cn("w-full space-y-1", className)}
     />
   );
 };
 
 export const LayoutHeaderTitle = (props: ComponentProps<"h1">) => {
+  const { className, ...rest } = props;
   return (
     <h1
-      {...props}
+      {...rest}
+      id="layout-header-title"
       data-slot="layout-header-title"
-      className="text-2xl leading-none font-bold tracking-tight"
+      className={cn(
+        "text-2xl leading-none font-bold tracking-tight",
+        className,
+      )}
     />
   );
 };
 
 export const LayoutHeaderDescription = (props: ComponentProps<"span">) => {
+  const { className, ...rest } = props;
   return (
     <span
-      {...props}
+      {...rest}
+      id="layout-header-description"
       data-slot="layout-header-description"
-      className="text-muted-foreground text-sm"
+      className={cn("text-muted-foreground text-sm", className)}
     />
   );
 };
 
 export const LayoutContent = (props: ComponentProps<"div">) => {
+  const { className, ...rest } = props;
   return (
     <div
-      {...props}
+      {...rest}
+      id="layout-content"
       data-slot="layout-content"
-      className="flex items-center gap-2"
+      className={cn("flex items-center gap-2", className)}
     />
   );
 };
 
 export const LayoutActions = (props: ComponentProps<"div">) => {
+  const { className, ...rest } = props;
   return (
     <div
-      {...props}
+      {...rest}
+      id="layout-actions"
       data-slot="layout-actions"
-      className="flex items-center gap-2"
+      className={cn("flex items-center gap-2", className)}
     />
   );
 };
