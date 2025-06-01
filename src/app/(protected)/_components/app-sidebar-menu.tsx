@@ -59,8 +59,8 @@ const AppSidebarMenu = () => {
                 />
                 <span
                   className={cn(
-                    "!text-[1.1rem]",
-                    isActiveMenu ? "text-primary font-bold" : "",
+                    "!text-[0.9rem] font-medium",
+                    isActiveMenu ? "text-primary" : "",
                   )}
                 >
                   {item.title}

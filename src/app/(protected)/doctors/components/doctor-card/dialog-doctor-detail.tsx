@@ -52,7 +52,7 @@ const DialogDoctorDetail = ({ doctor }: DoctorProps) => {
               Detalhes
             </TabsTrigger>
             <TabsTrigger value={MenuTabsDialogDoctorDetail.form}>
-              Atualizar Médico
+              Editar Médico
             </TabsTrigger>
           </TabsList>
           <TabsContent value={MenuTabsDialogDoctorDetail.detail}>

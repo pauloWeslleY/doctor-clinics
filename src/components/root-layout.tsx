@@ -6,8 +6,8 @@ export const LayoutRoot = ({ className, ...rest }: ComponentProps<"div">) => {
   return (
     <div
       {...rest}
-      role="main"
       id="layout-root"
+      role="main"
       data-slot="layout-root"
       className={cn("w-full space-y-6 p-6", className)}
     />

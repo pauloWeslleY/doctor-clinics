@@ -1,33 +1,34 @@
-import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  LayoutActions,
+  LayoutContent,
+  LayoutHeader,
+  LayoutHeaderContent,
+  LayoutHeaderDescription,
+  LayoutHeaderTitle,
+  LayoutRoot,
+} from "@/components/root-layout";
 
-import AddPatientForm from "./_components/add-patient-form";
+import AddDialogPatient from "./_components/dialog-add-patient";
+import TablePatient from "./_components/table-patient";
 
 const PatientsPage = () => {
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Pacientes</h1>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="default">Adicionar paciente</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Adicionar paciente</DialogTitle>
-            </DialogHeader>
-            <AddPatientForm />
-          </DialogContent>
-        </Dialog>
-      </div>
-      {/* Lista de pacientes será exibida aqui futuramente */}
-    </div>
+    <LayoutRoot>
+      <LayoutHeader>
+        <LayoutHeaderContent>
+          <LayoutHeaderTitle>Pacientes</LayoutHeaderTitle>
+          <LayoutHeaderDescription>
+            Gerencie os Médicos da sua clínica
+          </LayoutHeaderDescription>
+        </LayoutHeaderContent>
+        <LayoutActions>
+          <AddDialogPatient />
+        </LayoutActions>
+      </LayoutHeader>
+      <LayoutContent className="flex-col">
+        <TablePatient />
+      </LayoutContent>
+    </LayoutRoot>
   );
 };
 
