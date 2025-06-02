@@ -22,20 +22,18 @@ const useClinicForm = () => {
 
   const createClinicAction = useAction(createClinic, {
     onSuccess: () => {
-      toast.success("Clínica criada com sucesso.");
+      toast.success("Clínica cadastrar com sucesso.");
       form.reset();
       router.push(Routes.Dashboard);
     },
     onError: (error) => {
       console.log("create clinic ", { error });
-      toast.error("Error ao criar clinica.");
+      toast.error("Error ao cadastrar clínica.");
     },
   });
 
-  const onSubmit = (values: ClinicFormSchemaProps) => {
-    createClinicAction.execute({
-      name: values.name,
-    });
+  const onSubmit = ({ name }: ClinicFormSchemaProps) => {
+    createClinicAction.execute({ name });
   };
 
   return {

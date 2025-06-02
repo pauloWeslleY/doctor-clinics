@@ -1,7 +1,6 @@
 "use client";
 
 import { EllipsisVerticalIcon, LogOutIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -16,28 +15,12 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { authClient } from "@/lib/auth-client";
-import { Routes } from "@/lib/routes";
+
+import useSidebarFooterSignOut from "./use-sidebar-footer-sign-out";
 
 const SidebarFooterSignOut = () => {
-  const router = useRouter();
-  const session = authClient.useSession();
-
-  const loadUserAuthClinic = {
-    clinicName: session.data?.user?.clinic?.name || "Sem clínica",
-    userEmail: session.data?.user?.email || "Sem e-mail",
-    username: session.data?.user?.name[0].toUpperCase() || "Sem nome",
-  };
-
-  const handleSignOutSidebarFooter = async () => {
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          router.push(Routes.Authentication);
-        },
-      },
-    });
-  };
+  const { loadUserAuthClinic, handleSignOutSidebarFooter } =
+    useSidebarFooterSignOut();
 
   return (
     <SidebarFooter className="mb-2">

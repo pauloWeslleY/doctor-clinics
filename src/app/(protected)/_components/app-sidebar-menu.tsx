@@ -52,15 +52,12 @@ const AppSidebarMenu = () => {
             <SidebarMenuButton asChild isActive={isActiveMenu}>
               <Link href={item.url}>
                 <item.icon
-                  className={cn(
-                    "!h-5 !w-5",
-                    isActiveMenu ? "text-primary" : "",
-                  )}
+                  className={cn("!h-5 !w-5", isActiveMenu && "text-primary")}
                 />
                 <span
                   className={cn(
                     "!text-[0.9rem] font-medium",
-                    isActiveMenu ? "text-primary" : "",
+                    isActiveMenu && "text-primary",
                   )}
                 >
                   {item.title}
