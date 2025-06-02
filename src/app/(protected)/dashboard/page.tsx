@@ -1,9 +1,18 @@
 import { redirect } from "next/navigation";
 
+import {
+  LayoutActions,
+  LayoutContent,
+  LayoutHeader,
+  LayoutHeaderContent,
+  LayoutHeaderDescription,
+  LayoutHeaderTitle,
+  LayoutRoot,
+} from "@/components/root-layout";
 import { getUserAuthenticated } from "@/helpers/user-auth";
 import { Routes } from "@/lib/routes";
 
-import SignOutButton from "./components/sign-out-button";
+import SelectedDatePicker from "./components/select-date-picker";
 
 const DashboardPage = async () => {
   const { user } = await getUserAuthenticated();
@@ -17,12 +26,20 @@ const DashboardPage = async () => {
   }
 
   return (
-    <div>
-      <h1>{user.name}</h1>
-      <h1>{user.email}</h1>
-
-      <SignOutButton />
-    </div>
+    <LayoutRoot>
+      <LayoutHeader>
+        <LayoutHeaderContent>
+          <LayoutHeaderTitle>Dashboard</LayoutHeaderTitle>
+          <LayoutHeaderDescription>
+            Gerencie sua clínica
+          </LayoutHeaderDescription>
+        </LayoutHeaderContent>
+        <LayoutActions>
+          <SelectedDatePicker />
+        </LayoutActions>
+      </LayoutHeader>
+      <LayoutContent></LayoutContent>
+    </LayoutRoot>
   );
 };
 

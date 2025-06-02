@@ -2,6 +2,7 @@ import "./globals.css";
 
 import { type Metadata } from "next";
 import { Manrope } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { Toaster } from "@/components/ui/sonner";
 import { ReactQueryProvider } from "@/providers/react-query";
@@ -24,7 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${manrope.variable}`}>
       <body className="antialiased">
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <NuqsAdapter>
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+        </NuqsAdapter>
         <Toaster position="bottom-center" richColors theme="light" />
       </body>
     </html>

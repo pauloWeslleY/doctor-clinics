@@ -1,13 +1,7 @@
-import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation";
 
-const Home = () => {
-  return (
-    <div className="dark">
-      <h1>Home</h1>
+import { Routes } from "@/lib/routes";
 
-      <Button>Bootcamp!</Button>
-    </div>
-  );
-};
+const Home = () => redirect(Routes.Dashboard);
 
 export default Home;
