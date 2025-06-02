@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { sexPatientOptions } from "../../constants/sex-options";
 import { type UpdatePatientFormProps } from "./update-patient.type";
 import { useUpdatePatientForm } from "./use-update-patient-form";
 
@@ -96,8 +97,13 @@ const UpdatePatientForm = ({ onSuccess, patient }: UpdatePatientFormProps) => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="male">Masculino</SelectItem>
-                  <SelectItem value="female">Feminino</SelectItem>
+                  {sexPatientOptions.map((option) => {
+                    return (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
               <FormMessage />

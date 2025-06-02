@@ -39,7 +39,7 @@ const useCreatePatientForm = (onSuccess: () => void) => {
   return {
     form,
     onSubmit,
-    createPatientAction,
+    isPendingCreatePatientAction: createPatientAction.isPending,
   };
 };
 

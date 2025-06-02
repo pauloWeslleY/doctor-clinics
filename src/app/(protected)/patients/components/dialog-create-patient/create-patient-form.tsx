@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { sexPatientOptions } from "../../constants/sex-options";
 import useCreatePatientForm from "./use-create-patient-form";
 
 interface CreatePatientFormProps {
@@ -29,7 +30,7 @@ interface CreatePatientFormProps {
 }
 
 const CreatePatientForm = ({ onSuccess }: CreatePatientFormProps) => {
-  const { form, onSubmit, createPatientAction } =
+  const { form, onSubmit, isPendingCreatePatientAction } =
     useCreatePatientForm(onSuccess);
 
   return (
@@ -97,8 +98,13 @@ const CreatePatientForm = ({ onSuccess }: CreatePatientFormProps) => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="male">Masculino</SelectItem>
-                  <SelectItem value="female">Feminino</SelectItem>
+                  {sexPatientOptions.map((option) => {
+                    return (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -109,9 +115,9 @@ const CreatePatientForm = ({ onSuccess }: CreatePatientFormProps) => {
           <Button
             type="submit"
             className="w-full"
-            disabled={createPatientAction.isPending}
+            disabled={isPendingCreatePatientAction}
           >
-            {createPatientAction.isPending && (
+            {isPendingCreatePatientAction && (
               <Loader2Icon className="h-4 w-4 animate-spin" />
             )}
             Salvar
