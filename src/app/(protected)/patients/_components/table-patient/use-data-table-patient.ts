@@ -38,15 +38,15 @@ const useDataTablePatient = ({ data }: DataTablePatientProps) => {
     },
   });
 
-  const columnEmail = tablePatient.getColumn("email");
-  const inputSearchTable = (columnEmail?.getFilterValue() as string) ?? "";
+  const inputSearchTable =
+    (tablePatient.getColumn("email")?.getFilterValue() as string) ?? "";
 
   const optionsSelectColumnHide = () => {
     return tablePatient.getAllColumns().filter((column) => column.getCanHide());
   };
 
   const onChangeInputSearchTable = (event: ChangeEvent<HTMLInputElement>) => {
-    columnEmail?.setFilterValue(event.target.value);
+    tablePatient.getColumn("email")?.setFilterValue(event.target.value);
   };
 
   return {

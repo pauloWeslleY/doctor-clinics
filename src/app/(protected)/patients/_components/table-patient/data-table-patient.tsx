@@ -25,20 +25,21 @@ import { type DataTablePatientProps } from "./data-table-patient.type";
 import useDataTablePatient from "./use-data-table-patient";
 
 export function DataTablePatient({ data }: DataTablePatientProps) {
-  const {
-    tablePatient,
-    inputSearchTable,
-    optionsSelectColumnHide,
-    onChangeInputSearchTable,
-  } = useDataTablePatient({ data });
+  const { tablePatient, optionsSelectColumnHide } = useDataTablePatient({
+    data,
+  });
 
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Pesquisar..."
-          value={inputSearchTable}
-          onChange={onChangeInputSearchTable}
+          placeholder="Pesquisar e-mails..."
+          value={
+            (tablePatient.getColumn("email")?.getFilterValue() as string) ?? ""
+          }
+          onChange={(event) => {
+            tablePatient.getColumn("email")?.setFilterValue(event.target.value);
+          }}
           className="max-w-sm"
         />
         <DropdownMenu>

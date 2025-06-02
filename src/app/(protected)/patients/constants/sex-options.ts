@@ -4,5 +4,5 @@ export const sexPatientOptions = [
 ] as const;
 
 export const handleFindSexPatientSelected = (sex: string) => {
-  return sexPatientOptions.find((option) => option.label === sex)?.value ?? "";
+  return sexPatientOptions.find((option) => option.value === sex)?.label ?? "";
 };

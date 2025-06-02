@@ -1,26 +1,25 @@
+import { eq } from "drizzle-orm";
+import { headers } from "next/headers";
+
 import { db } from "@/db";
+import { patientsTable } from "@/db/schema";
+import { auth } from "@/lib/auth";
 
-import { sexPatientOptions } from "../../constants/sex-options";
 import { DataTablePatient } from "./data-table-patient";
-import { type PatientsProps } from "./data-table-patient.type";
+import { type PatientProps } from "./data-table-patient.type";
 
-const getPatients = async (): Promise<PatientsProps[]> => {
-  const patient = await db.query.patientsTable.findMany();
+const getPatients = async (): Promise<PatientProps[]> => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-  const dataTablePatient = patient.map<PatientsProps>((patient) => ({
-    id: patient.id,
-    name: patient.name,
-    email: patient.email,
-    phone_number: patient.phoneNumber,
-    sex:
-      sexPatientOptions.find((option) => option.value === patient.sex)?.label ||
-      "",
-    clinicId: patient.clinicId,
-    createdAt: patient.createdAt,
-    updatedAt: patient.updatedAt,
-  }));
+  const clinicId = session?.user.clinic?.id ?? "";
 
-  return dataTablePatient;
+  const patients = await db.query.patientsTable.findMany({
+    where: eq(patientsTable.clinicId, clinicId),
+  });
+
+  return patients;
 };
 
 const TablePatient = async () => {

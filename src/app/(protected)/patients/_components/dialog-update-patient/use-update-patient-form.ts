@@ -5,7 +5,6 @@ import { toast } from "sonner";
 
 import { upsertPatient } from "@/actions/upsert-patient";
 
-import { handleFindSexPatientSelected } from "../../constants/sex-options";
 import { UpdatePatientSchema } from "./update-patient.schema";
 import {
   type UpdatePatientFormProps,
@@ -22,7 +21,7 @@ export function useUpdatePatientForm({
       name: patient.name ?? "",
       email: patient.email ?? "",
       phone: patient.phoneNumber ?? "",
-      sex: handleFindSexPatientSelected(patient.sex) as "male" | "female",
+      sex: patient.sex,
     },
   });
 
