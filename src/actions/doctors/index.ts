@@ -3,11 +3,10 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { revalidatePath } from "next/cache";
-import { headers } from "next/headers";
 
 import { db } from "@/db";
 import { doctorsTable } from "@/db/schema";
-import { auth } from "@/lib/auth";
+import { getUserAuthenticated } from "@/helpers/user-auth";
 import { actionClient } from "@/lib/safe-actions";
 
 import { UpsertDoctorActionSchema } from "./upsert-doctor.action.schema";
@@ -32,16 +31,14 @@ export const upsertDoctor = actionClient
       .set("second", parseInt(availableToTime.split(":")[2]))
       .utc();
 
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
+    const { user } = await getUserAuthenticated();
 
-    if (!session?.user) {
-      throw new Error("Unauthorized");
+    if (!user) {
+      throw new Error("Usuário não autenticado!");
     }
 
-    if (!session?.user.clinic?.id) {
-      throw new Error("Clinic not found!");
+    if (!user.clinic) {
+      throw new Error("Clínica não encontrada!");
     }
 
     await db
@@ -49,7 +46,7 @@ export const upsertDoctor = actionClient
       .values({
         ...data,
         id: data.id,
-        clinicId: session?.user.clinic?.id,
+        clinicId: user.clinic.id,
         availableFromTime: availableFromTimeUTC.format("HH:mm:ss"),
         availableToTime: availableToTimeUTC.format("HH:mm:ss"),
       })

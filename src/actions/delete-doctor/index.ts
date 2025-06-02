@@ -2,12 +2,11 @@
 
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { headers } from "next/headers";
 import { z } from "zod";
 
 import { db } from "@/db";
 import { doctorsTable } from "@/db/schema";
-import { auth } from "@/lib/auth";
+import { getUserAuthenticated } from "@/helpers/user-auth";
 import { actionClient } from "@/lib/safe-actions";
 
 export const deleteDoctor = actionClient
@@ -17,12 +16,14 @@ export const deleteDoctor = actionClient
     }),
   )
   .action(async ({ parsedInput: data }) => {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
+    const { user } = await getUserAuthenticated();
 
-    if (!session?.user) {
-      throw new Error("Não autorizado");
+    if (!user) {
+      throw new Error("Usuário não autenticado");
+    }
+
+    if (!user.clinic) {
+      throw new Error("Clínica não encontrada");
     }
 
     const doctor = await db.query.doctorsTable.findFirst({
@@ -33,7 +34,7 @@ export const deleteDoctor = actionClient
       throw new Error("Médico não encontrado");
     }
 
-    if (doctor.clinicId !== session?.user.clinic?.id) {
+    if (doctor.clinicId !== user.clinic.id) {
       throw new Error("Médico não encontrado");
     }
 

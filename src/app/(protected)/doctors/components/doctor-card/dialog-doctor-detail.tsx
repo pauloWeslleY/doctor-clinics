@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { type DoctorProps, type TabsDoctorDetailType } from "./doctor.type";
+import { type DoctorCardProps, type TabsDoctorDetailType } from "./doctor.type";
 import DoctorDetail from "./doctor-detail";
 import UpdateDoctorForm from "./doctor-update-form";
 
@@ -23,7 +23,7 @@ export const MenuTabsDialogDoctorDetail = {
   form: "form",
 } as const;
 
-const DialogDoctorDetail = ({ doctor }: DoctorProps) => {
+const DialogDoctorDetail = ({ doctor }: DoctorCardProps) => {
   const [openDialogUpdateDoctor, setOpenDialogUpdateDoctor] = useState(false);
   const [tabsDoctorDetail, setTabsDoctorDetail] =
     useState<TabsDoctorDetailType>(MenuTabsDialogDoctorDetail.detail);

@@ -12,13 +12,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import AddPatientForm from "./add-patient-form";
+import CreatePatientForm from "./create-patient-form";
 
-const AddDialogPatient = () => {
-  const [openAddDialogPatient, setOpenAddDialogPatient] = useState(false);
+const CreateDialogPatient = () => {
+  const [openCreateDialogPatient, setOpenCreateDialogPatient] = useState(false);
 
   return (
-    <Dialog open={openAddDialogPatient} onOpenChange={setOpenAddDialogPatient}>
+    <Dialog
+      open={openCreateDialogPatient}
+      onOpenChange={setOpenCreateDialogPatient}
+    >
       <DialogTrigger asChild>
         <Button variant="default">
           <PlusIcon />
@@ -29,10 +32,12 @@ const AddDialogPatient = () => {
         <DialogHeader>
           <DialogTitle>Adicionar paciente</DialogTitle>
         </DialogHeader>
-        <AddPatientForm onSuccess={() => setOpenAddDialogPatient(false)} />
+        <CreatePatientForm
+          onSuccess={() => setOpenCreateDialogPatient(false)}
+        />
       </DialogContent>
     </Dialog>
   );
 };
 
-export default AddDialogPatient;
+export default CreateDialogPatient;

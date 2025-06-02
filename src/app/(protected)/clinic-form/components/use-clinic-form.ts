@@ -1,14 +1,18 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { isRedirectError } from "next/dist/client/components/redirect-error";
+import { useRouter } from "next/navigation";
+import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { createClinic } from "@/actions/create-clinic";
+import { Routes } from "@/lib/routes";
 
 import { ClinicFormSchema } from "./clinic-form.schema";
 import { type ClinicFormSchemaProps } from "./clinic-form.type";
 
 const useClinicForm = () => {
+  const router = useRouter();
+
   const form = useForm<ClinicFormSchemaProps>({
     resolver: zodResolver(ClinicFormSchema),
     defaultValues: {
@@ -16,20 +20,28 @@ const useClinicForm = () => {
     },
   });
 
-  const onSubmit = async (values: ClinicFormSchemaProps) => {
-    try {
-      await createClinic({ name: values.name });
+  const createClinicAction = useAction(createClinic, {
+    onSuccess: () => {
       toast.success("Clínica criada com sucesso.");
       form.reset();
-    } catch (error) {
-      if (isRedirectError(error)) return;
+      router.push(Routes.Dashboard);
+    },
+    onError: (error) => {
+      console.log("create clinic ", { error });
       toast.error("Error ao criar clinica.");
-    }
+    },
+  });
+
+  const onSubmit = (values: ClinicFormSchemaProps) => {
+    createClinicAction.execute({
+      name: values.name,
+    });
   };
 
   return {
     form,
     onSubmit,
+    isPendingCreateClinicAction: createClinicAction.isPending,
   };
 };
 

@@ -22,14 +22,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { useAddPatientForm } from "./use-add-patient-form";
+import useCreatePatientForm from "./use-create-patient-form";
 
-interface AddPatientFormValuesProps {
+interface CreatePatientFormProps {
   onSuccess: () => void;
 }
 
-const AddPatientForm = ({ onSuccess }: AddPatientFormValuesProps) => {
-  const { form, onSubmit, createPatientAction } = useAddPatientForm(onSuccess);
+const CreatePatientForm = ({ onSuccess }: CreatePatientFormProps) => {
+  const { form, onSubmit, createPatientAction } =
+    useCreatePatientForm(onSuccess);
 
   return (
     <Form {...form}>
@@ -121,4 +122,4 @@ const AddPatientForm = ({ onSuccess }: AddPatientFormValuesProps) => {
   );
 };
 
-export default AddPatientForm;
+export default CreatePatientForm;

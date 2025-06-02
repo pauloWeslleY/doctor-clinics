@@ -11,15 +11,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import PatientAlertDelete from "../alert-dialog-delete-patient";
-import UpdateDialogPatient from "../dialog-update-patient";
-import { type PatientProps } from "./data-table-patient.type";
+import AppointmentAlertDelete from "../alert-dialog-delete-appointment";
+import { type AppointmentProps } from "./data-table-appointment.type";
 
-interface DataTablePatientProps {
-  patient: PatientProps;
+interface DataTableAppointmentProps {
+  appointment: AppointmentProps;
 }
 
-const DataTablePatientActions = ({ patient }: DataTablePatientProps) => {
+const DataTableAppointmentActions = ({
+  appointment,
+}: DataTableAppointmentProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -32,12 +33,10 @@ const DataTablePatientActions = ({ patient }: DataTablePatientProps) => {
         <DropdownMenuLabel>Ações</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
-        <UpdateDialogPatient patient={patient} />
-
-        <PatientAlertDelete patient={patient} />
+        <AppointmentAlertDelete appointment={appointment} />
       </DropdownMenuContent>
     </DropdownMenu>
   );
 };
 
-export default DataTablePatientActions;
+export default DataTableAppointmentActions;

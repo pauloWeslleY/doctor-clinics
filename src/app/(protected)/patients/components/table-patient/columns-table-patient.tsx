@@ -7,10 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 
 import { handleFindSexPatientSelected } from "../../constants/sex-options";
-import { type PatientProps } from "./data-table-patient.type";
+import { type PatientProps } from "../../types/patient.type";
 import DataTablePatientActions from "./data-table-patient-actions";
 
-export const columnsTablePatient: ColumnDef<PatientProps>[] = [
+export const PatientColumnsTable: ColumnDef<PatientProps>[] = [
   {
     id: "select",
     header: ({ table }) => {
@@ -50,7 +50,7 @@ export const columnsTablePatient: ColumnDef<PatientProps>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           E-mail
-          <ArrowUpDownIcon className="!size-3" />
+          <ArrowUpDownIcon />
         </Button>
       );
     },

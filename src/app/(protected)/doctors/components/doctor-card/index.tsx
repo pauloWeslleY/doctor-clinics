@@ -13,10 +13,10 @@ import { Separator } from "@/components/ui/separator";
 
 import { formatDataDoctor } from "../../helpers/data-doctor-card";
 import DialogDoctorDetail from "./dialog-doctor-detail";
-import { type DoctorProps } from "./doctor.type";
+import { type DoctorCardProps } from "./doctor.type";
 import DoctorAlertDelete from "./doctor-alert-delete";
 
-const DoctorCard = ({ doctor }: DoctorProps) => {
+const DoctorCard = ({ doctor }: DoctorCardProps) => {
   const {
     availability,
     doctorInitials,

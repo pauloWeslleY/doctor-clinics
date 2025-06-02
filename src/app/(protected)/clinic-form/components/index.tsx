@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import useClinicForm from "./use-clinic-form";
 
 const CreateClinicForm = () => {
-  const { onSubmit, form } = useClinicForm();
+  const { onSubmit, form, isPendingCreateClinicAction } = useClinicForm();
 
   return (
     <>
@@ -41,9 +41,9 @@ const CreateClinicForm = () => {
             <Button
               type="submit"
               className="w-full"
-              disabled={form.formState.isSubmitting}
+              disabled={isPendingCreateClinicAction}
             >
-              {form.formState.isSubmitting && (
+              {isPendingCreateClinicAction && (
                 <Loader2Icon className="h-4 w-4 animate-spin" />
               )}
               Criar clínica

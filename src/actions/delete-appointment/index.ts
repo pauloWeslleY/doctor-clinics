@@ -5,11 +5,11 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { patientsTable } from "@/db/schema";
+import { appointmentsTable } from "@/db/schema";
 import { getUserAuthenticated } from "@/helpers/user-auth";
 import { actionClient } from "@/lib/safe-actions";
 
-export const deletePatient = actionClient
+export const deleteAppointment = actionClient
   .schema(
     z.object({
       id: z.string().uuid(),
@@ -26,18 +26,20 @@ export const deletePatient = actionClient
       throw new Error("Clínica não encontrada");
     }
 
-    const patient = await db.query.patientsTable.findFirst({
-      where: eq(patientsTable.id, parsedInput.id),
+    const appointment = await db.query.appointmentsTable.findFirst({
+      where: eq(appointmentsTable.id, parsedInput.id),
     });
 
-    if (!patient) {
-      throw new Error("Paciente não encontrado");
+    if (!appointment) {
+      throw new Error("Agendamento não encontrado");
     }
 
-    if (patient.clinicId !== user.clinic.id) {
-      throw new Error("Paciente não encontrado");
+    if (appointment.clinicId !== user.clinic.id) {
+      throw new Error("Agendamento não encontrado");
     }
 
-    await db.delete(patientsTable).where(eq(patientsTable.id, parsedInput.id));
-    revalidatePath("/patients");
+    await db
+      .delete(appointmentsTable)
+      .where(eq(appointmentsTable.id, parsedInput.id));
+    revalidatePath("/appointments");
   });

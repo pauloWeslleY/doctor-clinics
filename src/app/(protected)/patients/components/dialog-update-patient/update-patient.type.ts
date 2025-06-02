@@ -1,13 +1,12 @@
 import { type z } from "zod";
 
-import { type patientsTable } from "@/db/schema";
-
+import { type PatientProps } from "../../types/patient.type";
 import { type UpdatePatientSchema } from "./update-patient.schema";
 
 export type UpdatePatientFormValuesProps = z.infer<typeof UpdatePatientSchema>;
 
 export interface UpdatePatientProps {
-  patient: typeof patientsTable.$inferSelect;
+  patient: PatientProps;
 }
 
 export interface UpdatePatientFormProps extends UpdatePatientProps {

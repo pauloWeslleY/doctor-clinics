@@ -1,28 +1,25 @@
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { auth } from "@/lib/auth";
+import { getUserAuthenticated } from "@/helpers/user-auth";
 import { Routes } from "@/lib/routes";
 
 import SignOutButton from "./components/sign-out-button";
 
 const DashboardPage = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const { user } = await getUserAuthenticated();
 
-  if (!session?.user) {
+  if (!user) {
     redirect(Routes.Authentication);
   }
 
-  if (!session?.user.clinic) {
+  if (!user.clinic) {
     redirect(Routes.ClinicForm);
   }
 
   return (
     <div>
-      <h1>{session?.user?.name}</h1>
-      <h1>{session?.user?.email}</h1>
+      <h1>{user.name}</h1>
+      <h1>{user.email}</h1>
 
       <SignOutButton />
     </div>

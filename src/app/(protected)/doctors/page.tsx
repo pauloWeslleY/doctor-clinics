@@ -1,5 +1,4 @@
 import { eq } from "drizzle-orm";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import {
@@ -13,28 +12,30 @@ import {
 } from "@/components/root-layout";
 import { db } from "@/db";
 import { doctorsTable } from "@/db/schema";
-import { auth } from "@/lib/auth";
+import { getUserAuthenticated } from "@/helpers/user-auth";
 import { Routes } from "@/lib/routes";
 
 import CreateDoctor from "./components/create-doctor-dialog";
 import DoctorCard from "./components/doctor-card";
 
-const DoctorsPage = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+const getDoctors = async () => {
+  const { user } = await getUserAuthenticated();
 
-  if (!session?.user) {
+  if (!user) {
     redirect(Routes.Authentication);
   }
 
-  if (!session?.user.clinic) {
+  if (!user.clinic) {
     redirect(Routes.ClinicForm);
   }
 
-  const doctors = await db.query.doctorsTable.findMany({
-    where: eq(doctorsTable.clinicId, session?.user.clinic.id),
+  return await db.query.doctorsTable.findMany({
+    where: eq(doctorsTable.clinicId, user.clinic.id),
   });
+};
+
+const DoctorsPage = async () => {
+  const doctors = await getDoctors();
 
   return (
     <LayoutRoot>

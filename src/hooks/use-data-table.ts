@@ -8,20 +8,22 @@ import {
   useReactTable,
   type VisibilityState,
 } from "@tanstack/react-table";
-import { type ChangeEvent, useState } from "react";
+import { useState } from "react";
 
-import { columnsTablePatient } from "./columns-table-patient";
-import { type DataTablePatientProps } from "./data-table-patient.type";
+import { type DataTableProps } from "@/@types/data-table.type";
 
-const useDataTablePatient = ({ data }: DataTablePatientProps) => {
+const useDataTable = <TData, TValue>({
+  data,
+  columns,
+}: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
-  const tablePatient = useReactTable({
+  const table = useReactTable({
     data,
-    columns: columnsTablePatient,
+    columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -38,23 +40,14 @@ const useDataTablePatient = ({ data }: DataTablePatientProps) => {
     },
   });
 
-  const inputSearchTable =
-    (tablePatient.getColumn("email")?.getFilterValue() as string) ?? "";
-
   const optionsSelectColumnHide = () => {
-    return tablePatient.getAllColumns().filter((column) => column.getCanHide());
-  };
-
-  const onChangeInputSearchTable = (event: ChangeEvent<HTMLInputElement>) => {
-    tablePatient.getColumn("email")?.setFilterValue(event.target.value);
+    return table.getAllColumns().filter((column) => column.getCanHide());
   };
 
   return {
-    tablePatient,
-    inputSearchTable,
-    onChangeInputSearchTable,
+    table,
     optionsSelectColumnHide: optionsSelectColumnHide(),
   };
 };
 
-export default useDataTablePatient;
+export default useDataTable;

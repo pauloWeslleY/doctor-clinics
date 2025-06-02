@@ -7,11 +7,13 @@ import { type UpdateDoctorSchema } from "./update-doctor.schema";
 
 export type UpdateDoctorFormType = z.infer<typeof UpdateDoctorSchema>;
 
-export interface DoctorProps {
-  doctor: typeof doctorsTable.$inferSelect;
+export type DoctorProps = typeof doctorsTable.$inferSelect;
+
+export interface DoctorCardProps {
+  doctor: DoctorProps;
 }
 
-export interface UpdateDoctorFormProps extends DoctorProps {
+export interface UpdateDoctorFormProps extends DoctorCardProps {
   onSuccess: () => void;
 }
 

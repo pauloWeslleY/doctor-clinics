@@ -8,8 +8,8 @@ import {
   LayoutRoot,
 } from "@/components/root-layout";
 
-import AddDialogPatient from "./_components/dialog-add-patient";
-import TablePatient from "./_components/table-patient";
+import CreateDialogPatient from "./components/dialog-create-patient";
+import TablePatient from "./components/table-patient";
 
 const PatientsPage = () => {
   return (
@@ -18,11 +18,11 @@ const PatientsPage = () => {
         <LayoutHeaderContent>
           <LayoutHeaderTitle>Pacientes</LayoutHeaderTitle>
           <LayoutHeaderDescription>
-            Gerencie os Médicos da sua clínica
+            Gerencie os pacientes da sua clínica
           </LayoutHeaderDescription>
         </LayoutHeaderContent>
         <LayoutActions>
-          <AddDialogPatient />
+          <CreateDialogPatient />
         </LayoutActions>
       </LayoutHeader>
       <LayoutContent className="flex-col">

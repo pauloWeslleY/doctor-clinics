@@ -1,27 +1,29 @@
 "use server";
 
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { z } from "zod";
 
 import { db } from "@/db";
 import { clinicsTable, usersToClinicsTable } from "@/db/schema";
-import { auth } from "@/lib/auth";
-import { Routes } from "@/lib/routes";
+import { getUserAuthenticated } from "@/helpers/user-auth";
+import { actionClient } from "@/lib/safe-actions";
 
-export const createClinic = async ({ name }: { name: string }) => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
+const CreateClinicSchema = z.object({ name: z.string() });
+
+export const createClinic = actionClient
+  .schema(CreateClinicSchema)
+  .action(async ({ parsedInput: data }) => {
+    const { user } = await getUserAuthenticated();
+
+    if (!user) {
+      throw new Error("Usuário não autenticado");
+    }
+
+    const [clinic] = await db
+      .insert(clinicsTable)
+      .values({ name: data.name })
+      .returning();
+
+    await db
+      .insert(usersToClinicsTable)
+      .values({ userId: user.id, clinicId: clinic.id });
   });
-
-  if (!session?.user) {
-    throw new Error("Unauthorized");
-  }
-
-  const [clinic] = await db.insert(clinicsTable).values({ name }).returning();
-
-  await db
-    .insert(usersToClinicsTable)
-    .values({ userId: session?.user.id, clinicId: clinic.id });
-
-  redirect(Routes.Dashboard);
-};

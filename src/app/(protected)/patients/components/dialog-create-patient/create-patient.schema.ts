@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const AddPatientSchema = z.object({
+export const CreatePatientSchema = z.object({
   name: z.string().trim().min(2, {
     message: "Nome obrigatório",
   }),

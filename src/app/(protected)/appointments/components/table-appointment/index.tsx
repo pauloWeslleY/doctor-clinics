@@ -3,6 +3,7 @@
 import { flexRender } from "@tanstack/react-table";
 import { ChevronDownIcon } from "lucide-react";
 
+import { type DataTableProps } from "@/@types/data-table.type";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -20,25 +21,30 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { columnsTablePatient } from "./columns-table-patient";
-import { type DataTablePatientProps } from "./data-table-patient.type";
-import useDataTablePatient from "./use-data-table-patient";
+import useDataTableAppointment from "./use-data-table-patient";
 
-export function DataTablePatient({ data }: DataTablePatientProps) {
-  const { tablePatient, optionsSelectColumnHide } = useDataTablePatient({
-    data,
-  });
+const DataTableAppointment = <TData, TValue>({
+  data,
+  columns,
+}: DataTableProps<TData, TValue>) => {
+  const { tableAppointment, optionsSelectColumnHide } = useDataTableAppointment(
+    { data, columns },
+  );
 
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Pesquisar e-mails..."
+          placeholder="Pesquisar pacientes..."
           value={
-            (tablePatient.getColumn("email")?.getFilterValue() as string) ?? ""
+            (tableAppointment
+              .getColumn("patient")
+              ?.getFilterValue() as string) ?? ""
           }
           onChange={(event) => {
-            tablePatient.getColumn("email")?.setFilterValue(event.target.value);
+            tableAppointment
+              .getColumn("patient")
+              ?.setFilterValue(event.target.value);
           }}
           className="max-w-sm"
         />
@@ -67,7 +73,7 @@ export function DataTablePatient({ data }: DataTablePatientProps) {
       <div className="rounded-md border">
         <Table>
           <TableHeader>
-            {tablePatient.getHeaderGroups().map((headerGroup) => (
+            {tableAppointment.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
@@ -85,8 +91,8 @@ export function DataTablePatient({ data }: DataTablePatientProps) {
             ))}
           </TableHeader>
           <TableBody>
-            {tablePatient.getRowModel().rows?.length ? (
-              tablePatient.getRowModel().rows.map((row) => (
+            {tableAppointment.getRowModel().rows?.length ? (
+              tableAppointment.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
@@ -104,7 +110,7 @@ export function DataTablePatient({ data }: DataTablePatientProps) {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columnsTablePatient.length}
+                  colSpan={columns.length}
                   className="h-24 text-center"
                 >
                   No results.
@@ -115,25 +121,26 @@ export function DataTablePatient({ data }: DataTablePatientProps) {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="text-muted-foreground flex-1 text-sm">
-          {tablePatient.getFilteredSelectedRowModel().rows.length} de{" "}
-          {tablePatient.getFilteredRowModel().rows.length} linha(s) selecionada.
-        </div>
+        {/* <div className="text-muted-foreground flex-1 text-sm">
+          {tableAppointment.getFilteredSelectedRowModel().rows.length} de{" "}
+          {tableAppointment.getFilteredRowModel().rows.length} linha(s)
+          selecionada.
+        </div> */}
 
         <div className="space-x-2">
           <Button
             variant="outline"
             size="sm"
-            onClick={() => tablePatient.previousPage()}
-            disabled={!tablePatient.getCanPreviousPage()}
+            onClick={() => tableAppointment.previousPage()}
+            disabled={!tableAppointment.getCanPreviousPage()}
           >
             Anterior
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => tablePatient.nextPage()}
-            disabled={!tablePatient.getCanNextPage()}
+            onClick={() => tableAppointment.nextPage()}
+            disabled={!tableAppointment.getCanNextPage()}
           >
             Próximo
           </Button>
@@ -141,4 +148,6 @@ export function DataTablePatient({ data }: DataTablePatientProps) {
       </div>
     </div>
   );
-}
+};
+
+export default DataTableAppointment;

@@ -24,7 +24,7 @@ const SidebarFooterSignOut = () => {
   const session = authClient.useSession();
 
   const loadUserAuthClinic = {
-    clinicName: session.data?.user?.clinic.name || "Sem clínica",
+    clinicName: session.data?.user?.clinic?.name || "Sem clínica",
     userEmail: session.data?.user?.email || "Sem e-mail",
     username: session.data?.user?.name[0].toUpperCase() || "Sem nome",
   };

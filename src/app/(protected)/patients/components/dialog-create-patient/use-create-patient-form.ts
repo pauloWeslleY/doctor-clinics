@@ -5,13 +5,18 @@ import { toast } from "sonner";
 
 import { upsertPatient } from "@/actions/upsert-patient";
 
-import { AddPatientSchema } from "./add-patient.schema";
-import { type AddPatientFormValuesProps } from "./add-patient.type";
+import { CreatePatientSchema } from "./create-patient.schema";
+import { type CreatePatientFormValuesProps } from "./create-patient.type";
 
-export function useAddPatientForm(onSuccess: () => void) {
-  const form = useForm<AddPatientFormValuesProps>({
-    resolver: zodResolver(AddPatientSchema),
-    defaultValues: { name: "", email: "", phone: "" },
+const useCreatePatientForm = (onSuccess: () => void) => {
+  const form = useForm<CreatePatientFormValuesProps>({
+    resolver: zodResolver(CreatePatientSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      sex: undefined,
+    },
   });
 
   const createPatientAction = useAction(upsertPatient, {
@@ -24,7 +29,7 @@ export function useAddPatientForm(onSuccess: () => void) {
     },
   });
 
-  const onSubmit = (values: AddPatientFormValuesProps) => {
+  const onSubmit = (values: CreatePatientFormValuesProps) => {
     createPatientAction.execute({
       ...values,
       phoneNumber: values.phone,
@@ -36,4 +41,6 @@ export function useAddPatientForm(onSuccess: () => void) {
     onSubmit,
     createPatientAction,
   };
-}
+};
+
+export default useCreatePatientForm;

@@ -1,8 +1,7 @@
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { auth } from "@/lib/auth";
+import { getUserAuthenticated } from "@/helpers/user-auth";
 import { Routes } from "@/lib/routes";
 
 import LoginForm from "./components/login-form";
@@ -14,11 +13,9 @@ const MenuTabsAuthentication = {
 } as const;
 
 const AuthenticationPage = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const { user } = await getUserAuthenticated();
 
-  if (session?.user) {
+  if (!user) {
     redirect(Routes.Dashboard);
   }
 
