@@ -16,7 +16,8 @@ import { cn } from "@/lib/utils";
 import useSelectedDatePicker from "./use-selected-date-picker";
 
 const SelectedDatePicker = ({ className }: HTMLAttributes<HTMLDivElement>) => {
-  const { date, setDate, validateDateCurrent } = useSelectedDatePicker();
+  const { date, handleDateSelect, validateDateCurrent } =
+    useSelectedDatePicker();
 
   return (
     <div className={cn("grid gap-2", className)}>
@@ -26,7 +27,7 @@ const SelectedDatePicker = ({ className }: HTMLAttributes<HTMLDivElement>) => {
             id="date"
             variant="outline"
             className={cn(
-              "w-[300px] justify-start text-left font-normal",
+              "justify-start text-left font-normal",
               !date && "text-muted-foreground",
             )}
           >
@@ -39,7 +40,7 @@ const SelectedDatePicker = ({ className }: HTMLAttributes<HTMLDivElement>) => {
             mode="range"
             defaultMonth={date?.from}
             selected={date}
-            onSelect={setDate}
+            onSelect={handleDateSelect}
             numberOfMonths={2}
             locale={ptBR}
           />

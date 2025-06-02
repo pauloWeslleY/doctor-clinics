@@ -1,15 +1,22 @@
-import { addDays, format } from "date-fns";
+import { addMonths, format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { useMemo, useState } from "react";
+import { parseAsIsoDate, useQueryState } from "nuqs";
+import { useMemo } from "react";
 import { type DateRange } from "react-day-picker";
 
 const formatDate = (date: Date) => format(date, "LLL dd, y", { locale: ptBR });
 
 const useSelectedDatePicker = () => {
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
-  });
+  const [from, setFrom] = useQueryState(
+    "from",
+    parseAsIsoDate.withDefault(new Date()),
+  );
+  const [to, setTo] = useQueryState(
+    "to",
+    parseAsIsoDate.withDefault(addMonths(new Date(), 1)),
+  );
+
+  const date = { from, to };
 
   const validateDateCurrent = useMemo(() => {
     if (date?.from) {
@@ -25,9 +32,19 @@ const useSelectedDatePicker = () => {
     return "Selecione uma data";
   }, [date?.from, date?.to]);
 
+  const handleDateSelect = (date?: DateRange) => {
+    if (date?.from) {
+      setFrom(date.from);
+    }
+
+    if (date?.to) {
+      setTo(date.to);
+    }
+  };
+
   return {
     date,
-    setDate,
+    handleDateSelect,
     validateDateCurrent,
   };
 };
