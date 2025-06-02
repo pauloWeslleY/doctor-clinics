@@ -1,17 +1,17 @@
 "use client";
 
-import { MoreHorizontalIcon, TrashIcon } from "lucide-react";
+import { MoreHorizontalIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import PatientAlertDelete from "../alert-dialog-delete-patient";
 import UpdateDialogPatient from "../dialog-update-patient";
 import { type PatientProps } from "./data-table-patient.type";
 
@@ -34,10 +34,7 @@ const DataTablePatientActions = ({ patient }: DataTablePatientProps) => {
 
         <UpdateDialogPatient patient={patient} />
 
-        <DropdownMenuItem>
-          <TrashIcon />
-          Excluir
-        </DropdownMenuItem>
+        <PatientAlertDelete patient={patient} />
       </DropdownMenuContent>
     </DropdownMenu>
   );
