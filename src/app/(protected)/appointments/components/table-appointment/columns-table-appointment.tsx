@@ -10,25 +10,20 @@ export const AppointmentColumnsTable: ColumnsAppointmentTable = [
   {
     id: "patient",
     accessorKey: "patient.name",
-    header: "Paciente",
+    header: () => {
+      return <div className="font-bold">Paciente</div>;
+    },
     cell: ({ row }) => {
       const appointment = row.original;
       return <div className="capitalize">{appointment.patient.name}</div>;
     },
   },
   {
-    id: "doctor",
-    accessorKey: "doctor.name",
-    header: "Médico",
-    cell: ({ row }) => {
-      const appointment = row.original;
-      return `${appointment.doctor.name}`;
-    },
-  },
-  {
     id: "date",
     accessorKey: "date",
-    header: "Data e Hora",
+    header: () => {
+      return <div className="font-bold">Data</div>;
+    },
     cell: ({ row }) => {
       const appointment = row.original;
       return format(appointment.date, "dd/MM/yyyy 'às' HH:mm", {
@@ -37,14 +32,29 @@ export const AppointmentColumnsTable: ColumnsAppointmentTable = [
     },
   },
   {
+    id: "doctor",
+    accessorKey: "doctor.name",
+    header: () => {
+      return <div className="font-bold">Médico</div>;
+    },
+    cell: ({ row }) => {
+      const appointment = row.original;
+      return `${appointment.doctor.name}`;
+    },
+  },
+  {
     id: "specialty",
     accessorKey: "doctor.specialty",
-    header: "Especialidade",
+    header: () => {
+      return <div className="font-bold">Especialidade</div>;
+    },
   },
   {
     id: "price",
     accessorKey: "appointmentPriceInCents",
-    header: "Valor",
+    header: () => {
+      return <div className="font-bold">Valor</div>;
+    },
     cell: ({ row }) => {
       const appointment = row.original;
       const price = appointment.appointmentPriceInCents / 100;
@@ -56,7 +66,9 @@ export const AppointmentColumnsTable: ColumnsAppointmentTable = [
   },
   {
     id: "actions",
-    header: "Ações",
+    header: () => {
+      return <div className="font-bold">Ações</div>;
+    },
     cell: ({ row }) => {
       const appointment = row.original;
       return <DataTableAppointmentActions appointment={appointment} />;
