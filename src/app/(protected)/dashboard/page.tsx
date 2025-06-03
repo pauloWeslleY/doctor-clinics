@@ -1,6 +1,7 @@
-import { and, eq, gte, sum } from "drizzle-orm";
+import dayjs from "dayjs";
 import { redirect } from "next/navigation";
 
+import { getDataDashboard } from "@/actions/get-data-dashboard";
 import {
   LayoutActions,
   LayoutContent,
@@ -10,12 +11,11 @@ import {
   LayoutHeaderTitle,
   LayoutRoot,
 } from "@/components/root-layout";
-import { db } from "@/db";
-import { appointmentsTable } from "@/db/schema";
 import { getUserAuthenticated } from "@/helpers/user-auth";
 import { Routes } from "@/lib/routes";
 
 import SelectedDatePicker from "./components/select-date-picker";
+import StatsCard from "./components/stats-card";
 
 interface DashboardPageProps {
   searchParams: Promise<{
@@ -37,20 +37,17 @@ const DashboardPage = async ({ searchParams }: DashboardPageProps) => {
 
   const { from, to } = await searchParams;
 
-  const [totalRevenue] = await db
-    .select({
-      total: sum(appointmentsTable.appointmentPriceInCents),
-    })
-    .from(appointmentsTable)
-    .where(
-      and(
-        eq(appointmentsTable.clinicId, user.clinic.id),
-        gte(appointmentsTable.date, new Date(from)),
-        gte(appointmentsTable.date, new Date(to)),
-      ),
-    );
+  if (!from || !to) {
+    const searchParamsFrom = dayjs().format("YYYY-MM-DD");
+    const searchParamsTo = dayjs().add(1, "month").format("YYYY-MM-DD");
+    redirect(`/dashboard?from=${searchParamsFrom}&to=${searchParamsTo}`);
+  }
 
-  console.log({ totalRevenue });
+  const data = await getDataDashboard({
+    clinicId: user.clinic.id,
+    from,
+    to,
+  });
 
   return (
     <LayoutRoot>
@@ -65,7 +62,14 @@ const DashboardPage = async ({ searchParams }: DashboardPageProps) => {
           <SelectedDatePicker />
         </LayoutActions>
       </LayoutHeader>
-      <LayoutContent></LayoutContent>
+      <LayoutContent>
+        <StatsCard
+          totalAppointments={data.totalAppointments.total}
+          totalDoctors={data.totalDoctors.total}
+          totalPatients={data.totalPatients.total}
+          totalRevenue={Number(data.totalRevenue.total) || 0}
+        />
+      </LayoutContent>
     </LayoutRoot>
   );
 };

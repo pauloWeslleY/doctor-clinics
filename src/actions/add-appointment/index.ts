@@ -53,4 +53,5 @@ export const addAppointment = actionClient
     });
 
     revalidatePath("/appointments");
+    revalidatePath("/dashboard");
   });
