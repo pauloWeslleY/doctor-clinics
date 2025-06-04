@@ -25,8 +25,8 @@ const AppointmentsCharts = ({
   return (
     <Card>
       <CardHeader className="flex flex-row items-center gap-2">
-        <DollarSignIcon />
-        <CardTitle>Agendamentos e Faturamento</CardTitle>
+        <DollarSignIcon className="text-muted-foreground size-5" />
+        <CardTitle className="text-base">Agendamentos e Faturamento</CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="min-h-[200px]">

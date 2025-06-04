@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { and, count, eq, gte, lte, sql, sum } from "drizzle-orm";
+import { and, count, desc, eq, gte, lte, sql, sum } from "drizzle-orm";
 
 import { db } from "@/db";
 import { appointmentsTable, doctorsTable, patientsTable } from "@/db/schema";
@@ -18,20 +18,12 @@ export const getDataDashboard = async ({
   const chartStartDate = dayjs().subtract(10, "days").startOf("day").toDate();
   const chartEndDate = dayjs().add(10, "days").endOf("day").toDate();
 
-  if (!to && !from) {
-    return {
-      totalRevenue: { total: 0 },
-      totalAppointments: { total: 0 },
-      totalPatients: { total: 0 },
-      totalDoctors: { total: 0 },
-    };
-  }
-
   const [
     totalRevenue,
     totalAppointments,
     totalPatients,
     totalDoctors,
+    topDoctors,
     appointmentsData,
   ] = await Promise.all([
     db
@@ -64,6 +56,27 @@ export const getDataDashboard = async ({
       .where(eq(doctorsTable.clinicId, clinicId)),
     db
       .select({
+        id: doctorsTable.id,
+        name: doctorsTable.name,
+        avatarUrl: doctorsTable.avatarImageUrl,
+        specialty: doctorsTable.specialty,
+        appointments: count(appointmentsTable.id),
+      })
+      .from(doctorsTable)
+      .leftJoin(
+        appointmentsTable,
+        and(
+          eq(doctorsTable.id, appointmentsTable.doctorId),
+          gte(appointmentsTable.date, new Date(from)),
+          lte(appointmentsTable.date, new Date(to)),
+        ),
+      )
+      .where(eq(doctorsTable.clinicId, clinicId))
+      .groupBy(doctorsTable.id)
+      .orderBy(desc(count(appointmentsTable.id)))
+      .limit(10),
+    db
+      .select({
         date: sql<string>`DATE(${appointmentsTable.date})`.as("date"),
         appointments: count(appointmentsTable.id),
         revenue:
@@ -83,13 +96,8 @@ export const getDataDashboard = async ({
       .orderBy(sql`DATE(${appointmentsTable.date})`),
   ]);
 
-  console.log({
-    chartStartDate,
-    chartEndDate,
-    appointmentsData,
-  });
-
   return {
+    topDoctors,
     appointmentsData,
     totalRevenue: totalRevenue[0],
     totalAppointments: totalAppointments[0],
