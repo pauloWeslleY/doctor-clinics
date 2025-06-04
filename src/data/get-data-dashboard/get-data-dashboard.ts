@@ -24,6 +24,7 @@ export const getDataDashboard = async ({
     totalPatients,
     totalDoctors,
     topDoctors,
+    topSpecialty,
     appointmentsData,
   ] = await Promise.all([
     db
@@ -77,6 +78,22 @@ export const getDataDashboard = async ({
       .limit(10),
     db
       .select({
+        specialty: doctorsTable.specialty,
+        appointments: count(appointmentsTable.id),
+      })
+      .from(appointmentsTable)
+      .innerJoin(doctorsTable, eq(doctorsTable.id, appointmentsTable.doctorId))
+      .where(
+        and(
+          eq(appointmentsTable.clinicId, clinicId),
+          gte(appointmentsTable.date, new Date(from)),
+          lte(appointmentsTable.date, new Date(to)),
+        ),
+      )
+      .groupBy(doctorsTable.specialty)
+      .orderBy(desc(count(appointmentsTable.id))),
+    db
+      .select({
         date: sql<string>`DATE(${appointmentsTable.date})`.as("date"),
         appointments: count(appointmentsTable.id),
         revenue:
@@ -98,6 +115,7 @@ export const getDataDashboard = async ({
 
   return {
     topDoctors,
+    topSpecialty,
     appointmentsData,
     totalRevenue: totalRevenue[0],
     totalAppointments: totalAppointments[0],
