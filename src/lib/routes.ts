@@ -5,4 +5,5 @@ export const Routes = {
   Appointments: "/appointments",
   Patients: "/patients",
   Doctors: "/doctors",
+  Subscription: "/subscription",
 } as const;

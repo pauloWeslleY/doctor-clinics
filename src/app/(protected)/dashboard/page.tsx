@@ -30,8 +30,8 @@ interface DashboardPageProps {
 }
 
 const DashboardPage = async ({ searchParams }: DashboardPageProps) => {
-  const { user } = await getUserAuthenticated();
   const { from, to } = await searchParams;
+  const { user } = await getUserAuthenticated();
 
   if (!user) {
     redirect(Routes.Authentication);
