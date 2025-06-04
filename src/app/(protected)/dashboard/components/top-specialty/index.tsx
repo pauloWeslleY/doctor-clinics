@@ -50,7 +50,7 @@ const TopSpecialties = ({ specialties }: TopSpecialtiesProps) => {
   const maxAppointments = Math.max(...specialties.map((i) => i.appointments));
 
   return (
-    <Card className="mx-auto w-full">
+    <Card className="mx-auto h-fit w-full">
       <CardContent>
         <div className="mb-8 flex items-center justify-between">
           <div className="flex items-center gap-3">

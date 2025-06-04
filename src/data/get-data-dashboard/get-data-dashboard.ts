@@ -25,6 +25,7 @@ export const getDataDashboard = async ({
     totalDoctors,
     topDoctors,
     topSpecialty,
+    todayAppointments,
     appointmentsData,
   ] = await Promise.all([
     db
@@ -92,6 +93,17 @@ export const getDataDashboard = async ({
       )
       .groupBy(doctorsTable.specialty)
       .orderBy(desc(count(appointmentsTable.id))),
+    db.query.appointmentsTable.findMany({
+      where: and(
+        eq(appointmentsTable.clinicId, clinicId),
+        gte(appointmentsTable.date, new Date(from)),
+        lte(appointmentsTable.date, new Date(to)),
+      ),
+      with: {
+        patient: true,
+        doctor: true,
+      },
+    }),
     db
       .select({
         date: sql<string>`DATE(${appointmentsTable.date})`.as("date"),
@@ -116,6 +128,7 @@ export const getDataDashboard = async ({
   return {
     topDoctors,
     topSpecialty,
+    todayAppointments,
     appointmentsData,
     totalRevenue: totalRevenue[0],
     totalAppointments: totalAppointments[0],

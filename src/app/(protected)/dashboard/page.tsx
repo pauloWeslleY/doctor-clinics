@@ -14,9 +14,11 @@ import { getDataDashboard } from "@/data/get-data-dashboard";
 import { getUserAuthenticated } from "@/helpers/user-auth";
 import { Routes } from "@/lib/routes";
 
+import { AppointmentColumnsTable } from "../appointments/components/table-appointment/columns-table-appointment";
 import RevenueChart from "./components/appointments-charts";
 import SelectedDatePicker from "./components/select-date-picker";
 import StatsCard from "./components/stats-card";
+import TodayAppointmentsTable from "./components/today-appointments-table";
 import TopDoctors from "./components/top-doctors";
 import TopSpecialties from "./components/top-specialty";
 
@@ -52,6 +54,7 @@ const DashboardPage = async ({ searchParams }: DashboardPageProps) => {
     totalRevenue,
     topDoctors,
     topSpecialty,
+    todayAppointments,
     appointmentsData,
   } = await getDataDashboard({ clinicId: user.clinic.id, from, to });
 
@@ -83,7 +86,10 @@ const DashboardPage = async ({ searchParams }: DashboardPageProps) => {
         </div>
 
         <div className="grid grid-cols-[2.25fr_1fr] gap-4">
-          <div></div>
+          <TodayAppointmentsTable
+            data={todayAppointments}
+            columns={AppointmentColumnsTable}
+          />
 
           <TopSpecialties specialties={topSpecialty} />
         </div>
