@@ -3,7 +3,7 @@ import { useAction } from "next-safe-action/hooks";
 
 import { createStripeCheckout } from "@/actions/create-stripe-checkout";
 
-const useSubscriptionPlanCard = () => {
+const useSubscriptionPlanCard = (active?: boolean) => {
   const createStripeCheckoutAction = useAction(createStripeCheckout, {
     onSuccess: async ({ data }) => {
       if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
@@ -26,11 +26,17 @@ const useSubscriptionPlanCard = () => {
     },
   });
 
+  const buttonText = active ? "Gerenciar assinatura" : "Fazer assinatura";
+
   const handleCreateStripeCheckout = () => {
+    const activePlain = active === undefined ? false : active;
+    if (activePlain) return;
     createStripeCheckoutAction.execute();
   };
 
   return {
+    buttonCreateStripeCheckoutText: buttonText,
+    isPendingCreateStripeCheckoutAction: createStripeCheckoutAction.isExecuting,
     handleCreateStripeCheckout,
   };
 };

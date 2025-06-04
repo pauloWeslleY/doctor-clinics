@@ -1,12 +1,14 @@
 "use client";
 
-import { CheckCircle2Icon } from "lucide-react";
+import { CheckCircle2Icon, Loader2Icon } from "lucide-react";
 import { type ComponentProps } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+
+import useSubscriptionPlanCard from "./use-subscription-plan-card";
 
 interface SubscriptionPlanCardProps extends ComponentProps<"div"> {
   active?: boolean;
@@ -25,6 +27,11 @@ const SubscriptionPlanCard = ({
   active,
   className,
 }: SubscriptionPlanCardProps) => {
+  const {
+    handleCreateStripeCheckout,
+    buttonCreateStripeCheckoutText,
+    isPendingCreateStripeCheckoutAction,
+  } = useSubscriptionPlanCard();
   return (
     <Card className={cn("max-w-[280px]", className)}>
       <CardHeader>
@@ -61,17 +68,14 @@ const SubscriptionPlanCard = ({
           <Button
             className="w-full"
             variant="outline"
-            // onClick={active ? handleManagePlanClick : handleSubscribeClick}
-            // disabled={createStripeCheckoutAction.isExecuting}
+            onClick={handleCreateStripeCheckout}
+            disabled={isPendingCreateStripeCheckoutAction}
           >
-            {/* {createStripeCheckoutAction.isExecuting ? (
+            {isPendingCreateStripeCheckoutAction ? (
               <Loader2Icon className="mr-1 h-4 w-4 animate-spin" />
-            ) : active ? (
-              "Gerenciar assinatura"
             ) : (
-              "Fazer assinatura"
-            )} */}
-            {active ? "Gerenciar assinatura" : "Fazer assinatura"}
+              buttonCreateStripeCheckoutText
+            )}
           </Button>
         </div>
       </CardContent>
