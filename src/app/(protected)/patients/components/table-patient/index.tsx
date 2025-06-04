@@ -1,4 +1,4 @@
-import { getPatients } from "@/actions/get-patient";
+import { getPatients } from "@/data/get-patient";
 
 import { PatientColumnsTable } from "./columns-table-patient";
 import { DataTablePatient } from "./data-table-patient";

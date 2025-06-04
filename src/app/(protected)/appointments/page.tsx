@@ -1,4 +1,3 @@
-import { getAppointments } from "@/actions/get-appointment";
 import {
   LayoutActions,
   LayoutContent,
@@ -8,6 +7,7 @@ import {
   LayoutHeaderTitle,
   LayoutRoot,
 } from "@/components/root-layout";
+import { getAppointments } from "@/data/get-appointment";
 
 import CreateAppointment from "./components/create-appointment";
 import DataTableAppointment from "./components/table-appointment";
@@ -29,7 +29,7 @@ const AppointmentsPage = async () => {
           <CreateAppointment patients={patients} doctors={doctors} />
         </LayoutActions>
       </LayoutHeader>
-      <LayoutContent className="flex-col">
+      <LayoutContent>
         <DataTableAppointment
           data={appointments}
           columns={AppointmentColumnsTable}

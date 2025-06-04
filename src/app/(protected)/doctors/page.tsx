@@ -1,4 +1,3 @@
-import { getDoctors } from "@/actions/get-doctors";
 import {
   LayoutActions,
   LayoutContent,
@@ -8,6 +7,7 @@ import {
   LayoutHeaderTitle,
   LayoutRoot,
 } from "@/components/root-layout";
+import { getDoctors } from "@/data/get-doctors";
 
 import CreateDoctor from "./components/create-doctor-dialog";
 import DoctorCard from "./components/doctor-card";
@@ -28,10 +28,12 @@ const DoctorsPage = async () => {
           <CreateDoctor />
         </LayoutActions>
       </LayoutHeader>
-      <LayoutContent className="flex-wrap">
-        {doctors.map((doctor) => {
-          return <DoctorCard key={doctor.id} doctor={doctor} />;
-        })}
+      <LayoutContent>
+        <div className="flex flex-row gap-4">
+          {doctors.map((doctor) => {
+            return <DoctorCard key={doctor.id} doctor={doctor} />;
+          })}
+        </div>
       </LayoutContent>
     </LayoutRoot>
   );

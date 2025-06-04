@@ -25,7 +25,7 @@ const PatientsPage = () => {
           <CreateDialogPatient />
         </LayoutActions>
       </LayoutHeader>
-      <LayoutContent className="flex-col">
+      <LayoutContent>
         <TablePatient />
       </LayoutContent>
     </LayoutRoot>

@@ -72,7 +72,7 @@ export const LayoutContent = (props: ComponentProps<"div">) => {
       {...rest}
       id="layout-content"
       data-slot="layout-content"
-      className={cn("flex items-center gap-2", className)}
+      className={cn("space-y-6", className)}
     />
   );
 };
