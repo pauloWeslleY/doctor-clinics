@@ -15,7 +15,7 @@ const MenuTabsAuthentication = {
 const AuthenticationPage = async () => {
   const { user } = await getUserAuthenticated();
 
-  if (!user) {
+  if (user) {
     redirect(Routes.Dashboard);
   }
 

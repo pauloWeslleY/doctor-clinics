@@ -16,7 +16,10 @@ const useSidebarFooterSignOut = () => {
     };
 
     if (!data) return withoutDataClinic;
-    if (!data.user || !data.user.clinic) return withoutDataClinic;
+
+    if (!data.user || !data.user.clinic) {
+      return withoutDataClinic;
+    }
 
     return {
       clinicName: data.user.clinic.name,

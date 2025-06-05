@@ -22,12 +22,12 @@ export const auth = betterAuth({
     customSession(async ({ user, session }) => {
       const clinics = await db.query.usersToClinicsTable.findMany({
         where: eq(schema.usersToClinicsTable.userId, user.id),
-        with: { clinic: true },
+        with: { clinic: true, user: true },
       });
 
       if (clinics.length === 0 || !clinics) {
         return {
-          user: { ...user, clinic: null },
+          user: { ...user, plan: null, clinic: null },
           session,
         };
       }
@@ -38,6 +38,7 @@ export const auth = betterAuth({
       return {
         user: {
           ...user,
+          plan: clinic.user.plan,
           clinic: {
             id: clinic.clinicId,
             name: clinic.clinic.name,
@@ -49,6 +50,23 @@ export const auth = betterAuth({
   ],
   user: {
     modelName: "usersTable",
+    additionalFields: {
+      stripeCustomerId: {
+        type: "string",
+        fieldName: "stripeCustomerId",
+        required: false,
+      },
+      stripeSubscriptionId: {
+        type: "string",
+        fieldName: "stripeSubscriptionId",
+        required: false,
+      },
+      plan: {
+        type: "string",
+        fieldName: "plan",
+        required: false,
+      },
+    },
   },
   session: {
     modelName: "sessionsTable",

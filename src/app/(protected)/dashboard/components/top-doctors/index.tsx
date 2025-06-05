@@ -42,6 +42,12 @@ const TopDoctors = ({ doctors }: TopDoctorsProps) => {
         </div>
 
         <div className="space-y-6">
+          {doctors.length === 0 && (
+            <p className="text-muted-foreground text-center">
+              Nenhum médico cadastrado.
+            </p>
+          )}
+
           {doctors.map((doctor) => (
             <div key={doctor.id} className="flex items-center justify-between">
               <div className="flex items-center gap-4">

@@ -60,6 +60,12 @@ const TopSpecialties = ({ specialties }: TopSpecialtiesProps) => {
         </div>
 
         <div className="space-y-6">
+          {specialties.length === 0 && (
+            <p className="text-muted-foreground text-center">
+              Nenhuma médico cadastrado.
+            </p>
+          )}
+
           {specialties.map(({ specialty, appointments }) => {
             const Icon = getSpecialtyIcon(specialty);
             const progressValue = (appointments / maxAppointments) * 100;

@@ -12,6 +12,7 @@ import useSubscriptionPlanCard from "./use-subscription-plan-card";
 
 interface SubscriptionPlanCardProps extends ComponentProps<"div"> {
   active?: boolean;
+  userEmail?: string;
 }
 
 const features = [
@@ -25,13 +26,15 @@ const features = [
 
 const SubscriptionPlanCard = ({
   active,
+  userEmail,
   className,
 }: SubscriptionPlanCardProps) => {
   const {
-    handleCreateStripeCheckout,
+    handleSubscriptionPlan,
     buttonCreateStripeCheckoutText,
     isPendingCreateStripeCheckoutAction,
-  } = useSubscriptionPlanCard();
+  } = useSubscriptionPlanCard({ active, userEmail });
+
   return (
     <Card className={cn("max-w-[280px]", className)}>
       <CardHeader>
@@ -68,7 +71,7 @@ const SubscriptionPlanCard = ({
           <Button
             className="w-full"
             variant="outline"
-            onClick={handleCreateStripeCheckout}
+            onClick={handleSubscriptionPlan}
             disabled={isPendingCreateStripeCheckoutAction}
           >
             {isPendingCreateStripeCheckoutAction ? (
