@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 import {
   Dialog,
   DialogContent,
@@ -5,10 +7,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { getUserAuthenticated } from "@/helpers/user-auth";
+import { Routes } from "@/lib/routes";
 
 import CreateClinicForm from "./components";
 
-const ClinicFormPage = () => {
+const ClinicFormPage = async () => {
+  const { session } = await getUserAuthenticated();
+
+  if (!session) {
+    redirect(Routes.Appointments);
+  }
+
   return (
     <Dialog open>
       <DialogContent className="sm:max-w-[425px]">

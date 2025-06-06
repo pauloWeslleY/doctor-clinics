@@ -1,6 +1,3 @@
-import dayjs from "dayjs";
-import { redirect } from "next/navigation";
-
 import {
   LayoutActions,
   LayoutContent,
@@ -11,8 +8,6 @@ import {
   LayoutRoot,
 } from "@/components/root-layout";
 import { getDataDashboard } from "@/data/get-data-dashboard";
-import { getUserAuthenticated } from "@/helpers/user-auth";
-import { Routes } from "@/lib/routes";
 
 import { AppointmentColumnsTable } from "../appointments/components/table-appointment/columns-table-appointment";
 import RevenueChart from "./components/appointments-charts";
@@ -31,21 +26,6 @@ interface DashboardPageProps {
 
 const DashboardPage = async ({ searchParams }: DashboardPageProps) => {
   const { from, to } = await searchParams;
-  const { user } = await getUserAuthenticated();
-
-  if (!user) {
-    redirect(Routes.Authentication);
-  }
-
-  if (!user.clinic) {
-    redirect(Routes.ClinicForm);
-  }
-
-  if (!from || !to) {
-    const searchParamsFrom = dayjs().format("YYYY-MM-DD");
-    const searchParamsTo = dayjs().add(1, "month").format("YYYY-MM-DD");
-    redirect(`/dashboard?from=${searchParamsFrom}&to=${searchParamsTo}`);
-  }
 
   const {
     totalAppointments,
@@ -56,7 +36,7 @@ const DashboardPage = async ({ searchParams }: DashboardPageProps) => {
     topSpecialty,
     todayAppointments,
     appointmentsData,
-  } = await getDataDashboard({ clinicId: user.clinic.id, from, to });
+  } = await getDataDashboard({ from, to });
 
   return (
     <LayoutRoot>

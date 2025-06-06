@@ -38,6 +38,7 @@ const Subscription = async () => {
       </LayoutHeader>
       <LayoutContent>
         <SubscriptionPlanCard
+          className="max-w-[350px]"
           active={session.user.plan === "essential"}
           userEmail={user.email}
         />

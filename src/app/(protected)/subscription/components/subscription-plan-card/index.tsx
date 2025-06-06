@@ -36,7 +36,7 @@ const SubscriptionPlanCard = ({
   } = useSubscriptionPlanCard({ active, userEmail });
 
   return (
-    <Card className={cn("max-w-[280px]", className)}>
+    <Card className={cn("w-full", className)}>
       <CardHeader>
         <div className="flex items-center justify-between">
           <h3 className="text-2xl font-bold text-gray-900">Essential</h3>

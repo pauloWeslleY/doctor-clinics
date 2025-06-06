@@ -17,6 +17,10 @@ export const getDoctors = async () => {
     redirect(Routes.ClinicForm);
   }
 
+  if (!user.plan) {
+    redirect(Routes.Plans);
+  }
+
   return await db.query.doctorsTable.findMany({
     where: eq(doctorsTable.clinicId, user.clinic.id),
   });

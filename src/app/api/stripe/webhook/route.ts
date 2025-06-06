@@ -34,31 +34,25 @@ export const POST = async (request: Request) => {
         throw new Error("Missing Stripe Subscription ID");
       }
 
-      const { lines, customer } = event.data.object as unknown as {
+      console.log(event.data.object);
+
+      const { parent, customer } = event.data.object as unknown as {
         customer: string;
-        lines: {
-          data: [
-            {
-              metadata: { userId: string };
-              parent: {
-                invoice_item_details: null;
-                subscription_item_details: { subscription: string };
-              };
-            },
-          ];
+        parent: {
+          subscription_details: {
+            metadata: { userId: string };
+            subscription: string;
+          };
         };
       };
 
-      const subscription =
-        lines.data[0].parent.subscription_item_details.subscription;
-
-      const subscription_details = lines.data[0];
+      const subscription = parent.subscription_details.subscription;
 
       if (!subscription) {
         throw new Error("Missing Stripe Subscription");
       }
 
-      const userId = subscription_details.metadata.userId;
+      const userId = parent.subscription_details.metadata.userId;
 
       if (!userId) {
         throw new Error("Missing userId");

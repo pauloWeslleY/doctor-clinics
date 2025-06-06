@@ -17,6 +17,10 @@ export const getAppointments = async () => {
     redirect(Routes.Authentication);
   }
 
+  if (!user.plan) {
+    redirect(Routes.Plans);
+  }
+
   const [patients, doctors, appointments] = await Promise.all([
     db.query.patientsTable.findMany({
       where: eq(patientsTable.clinicId, user.clinic.id),

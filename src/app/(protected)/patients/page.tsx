@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 import {
   LayoutActions,
   LayoutContent,
@@ -7,11 +9,23 @@ import {
   LayoutHeaderTitle,
   LayoutRoot,
 } from "@/components/root-layout";
+import { getUserAuthenticated } from "@/helpers/user-auth";
+import { Routes } from "@/lib/routes";
 
 import CreateDialogPatient from "./components/dialog-create-patient";
 import TablePatient from "./components/table-patient";
 
-const PatientsPage = () => {
+const PatientsPage = async () => {
+  const { session, user } = await getUserAuthenticated();
+
+  if (!session) {
+    redirect(Routes.Authentication);
+  }
+
+  if (!user?.plan) {
+    redirect(Routes.Plans);
+  }
+
   return (
     <LayoutRoot>
       <LayoutHeader>

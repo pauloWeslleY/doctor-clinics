@@ -1,22 +1,43 @@
 import dayjs from "dayjs";
 import { and, count, desc, eq, gte, lte, sql, sum } from "drizzle-orm";
+import { redirect } from "next/navigation";
 
 import { db } from "@/db";
 import { appointmentsTable, doctorsTable, patientsTable } from "@/db/schema";
+import { getUserAuthenticated } from "@/helpers/user-auth";
+import { Routes } from "@/lib/routes";
 
 interface GetDataDashboardProps {
-  clinicId: string;
   from: string;
   to: string;
 }
 
-export const getDataDashboard = async ({
-  clinicId,
-  from,
-  to,
-}: GetDataDashboardProps) => {
+export const getDataDashboard = async ({ from, to }: GetDataDashboardProps) => {
+  const { user } = await getUserAuthenticated();
   const chartStartDate = dayjs().subtract(10, "days").startOf("day").toDate();
   const chartEndDate = dayjs().add(10, "days").endOf("day").toDate();
+
+  console.log(user);
+
+  if (!user) {
+    redirect(Routes.Authentication);
+  }
+
+  if (!user.plan) {
+    redirect(Routes.Plans);
+  }
+
+  if (!user.clinic) {
+    redirect(Routes.ClinicForm);
+  }
+
+  if (!from || !to) {
+    const searchParamsFrom = dayjs().format("YYYY-MM-DD");
+    const searchParamsTo = dayjs().add(1, "month").format("YYYY-MM-DD");
+    redirect(`/dashboard?from=${searchParamsFrom}&to=${searchParamsTo}`);
+  }
+
+  const clinicId = user.clinic.id;
 
   const [
     totalRevenue,

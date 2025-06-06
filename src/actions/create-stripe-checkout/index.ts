@@ -12,10 +12,6 @@ export const createStripeCheckout = actionClient.action(async () => {
     throw new Error("Usuário nao autenticado");
   }
 
-  if (!user.clinic) {
-    throw new Error("Clínica nao encontrada");
-  }
-
   if (!process.env.STRIPE_SECRET_KEY) {
     throw new Error("Stripe secret key nao encontrada");
   }
