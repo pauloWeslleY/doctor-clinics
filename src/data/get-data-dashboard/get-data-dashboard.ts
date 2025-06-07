@@ -17,8 +17,6 @@ export const getDataDashboard = async ({ from, to }: GetDataDashboardProps) => {
   const chartStartDate = dayjs().subtract(10, "days").startOf("day").toDate();
   const chartEndDate = dayjs().add(10, "days").endOf("day").toDate();
 
-  console.log(user);
-
   if (!user) {
     redirect(Routes.Authentication);
   }

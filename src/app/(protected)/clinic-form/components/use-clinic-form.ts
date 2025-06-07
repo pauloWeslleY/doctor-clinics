@@ -26,8 +26,7 @@ const useClinicForm = () => {
       form.reset();
       router.push(Routes.Dashboard);
     },
-    onError: (error) => {
-      console.log("create clinic ", { error });
+    onError: () => {
       toast.error("Error ao cadastrar clínica.");
     },
   });
