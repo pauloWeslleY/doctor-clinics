@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
-import { type PatientProps } from "../table-patient/data-table-patient.type";
+import { type PatientProps } from "../../types/patient.type";
 import useDeletePatient from "./use-delete-patient";
 
 interface PatientAlertDeleteProps {

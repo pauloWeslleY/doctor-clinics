@@ -31,7 +31,7 @@ export const auth = betterAuth({
       ]);
 
       // TODO: Ao adaptar para o usuário ter múltiplas clínicas, isso precisa ser melhorado
-      const clinicData = clinics?.[0]
+      const clinic = clinics?.[0]
         ? {
             id: clinics[0]?.clinicId,
             name: clinics[0]?.clinic.name,
@@ -42,7 +42,7 @@ export const auth = betterAuth({
         user: {
           ...user,
           plan: userData?.plan || null,
-          clinic: clinicData,
+          clinic: clinic,
         },
         session,
       };

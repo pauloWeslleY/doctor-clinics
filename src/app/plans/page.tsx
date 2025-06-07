@@ -7,7 +7,7 @@ import SubscriptionPlanCard from "../(protected)/subscription/components/subscri
 
 const Plans = async () => {
   const { user } = await getUserAuthenticated();
-  console.log(user);
+
   if (!user) {
     redirect(Routes.Authentication);
   }
