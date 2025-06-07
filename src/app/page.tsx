@@ -10,7 +10,7 @@ const Home = async () => {
     redirect(Routes.Dashboard);
   }
 
-  redirect(Routes.Appointments);
+  redirect(Routes.Authentication);
 };
 
 export default Home;
