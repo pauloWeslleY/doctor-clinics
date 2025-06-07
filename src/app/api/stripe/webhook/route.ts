@@ -34,8 +34,6 @@ export const POST = async (request: Request) => {
         throw new Error("Missing Stripe Subscription ID");
       }
 
-      console.log(event.data.object);
-
       const { parent, customer } = event.data.object as unknown as {
         customer: string;
         parent: {
