@@ -6,26 +6,15 @@ import { z } from "zod";
 
 import { db } from "@/db";
 import { doctorsTable } from "@/db/schema";
-import { getUserAuthenticated } from "@/helpers/user-auth";
-import { actionClient } from "@/lib/safe-actions";
+import { protectedWithClinicActionClient } from "@/lib/safe-actions";
 
-export const deleteDoctor = actionClient
+export const deleteDoctor = protectedWithClinicActionClient
   .schema(
     z.object({
       id: z.string().uuid(),
     }),
   )
-  .action(async ({ parsedInput: data }) => {
-    const { user } = await getUserAuthenticated();
-
-    if (!user) {
-      throw new Error("Usuário não autenticado");
-    }
-
-    if (!user.clinic) {
-      throw new Error("Clínica não encontrada");
-    }
-
+  .action(async ({ parsedInput: data, ctx: { user } }) => {
     const doctor = await db.query.doctorsTable.findFirst({
       where: eq(doctorsTable.id, data.id),
     });

@@ -15,9 +15,7 @@ const useClinicForm = () => {
 
   const form = useForm<ClinicFormSchemaProps>({
     resolver: zodResolver(ClinicFormSchema),
-    defaultValues: {
-      name: "",
-    },
+    defaultValues: { name: "" },
   });
 
   const createClinicAction = useAction(createClinic, {

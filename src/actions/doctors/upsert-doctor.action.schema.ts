@@ -20,7 +20,3 @@ export const UpsertDoctorActionSchema = z.object({
     message: "Hora final é obrigatória",
   }),
 });
-
-export type UpsertDoctorActionSchemaProps = z.infer<
-  typeof UpsertDoctorActionSchema
->;

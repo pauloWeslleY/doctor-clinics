@@ -15,5 +15,3 @@ export const UpsertPatientSchema = z.object({
     required_error: "Sexo obrigatório",
   }),
 });
-
-export type UpsertPatientProps = z.infer<typeof UpsertPatientSchema>;

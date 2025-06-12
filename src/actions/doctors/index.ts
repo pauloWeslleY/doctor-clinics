@@ -6,16 +6,15 @@ import { revalidatePath } from "next/cache";
 
 import { db } from "@/db";
 import { doctorsTable } from "@/db/schema";
-import { getUserAuthenticated } from "@/helpers/user-auth";
-import { actionClient } from "@/lib/safe-actions";
+import { protectedWithClinicActionClient } from "@/lib/safe-actions";
 
 import { UpsertDoctorActionSchema } from "./upsert-doctor.action.schema";
 
 dayjs.extend(utc);
 
-export const upsertDoctor = actionClient
+export const upsertDoctor = protectedWithClinicActionClient
   .schema(UpsertDoctorActionSchema)
-  .action(async ({ parsedInput: data }) => {
+  .action(async ({ parsedInput: data, ctx: { user } }) => {
     const availableFromTime = data.availableFromTime;
     const availableToTime = data.availableToTime;
 
@@ -30,16 +29,6 @@ export const upsertDoctor = actionClient
       .set("minute", parseInt(availableToTime.split(":")[1]))
       .set("second", parseInt(availableToTime.split(":")[2]))
       .utc();
-
-    const { user } = await getUserAuthenticated();
-
-    if (!user) {
-      throw new Error("Usuário não autenticado!");
-    }
-
-    if (!user.clinic) {
-      throw new Error("Clínica não encontrada!");
-    }
 
     await db
       .insert(doctorsTable)

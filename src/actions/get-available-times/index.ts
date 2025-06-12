@@ -9,39 +9,28 @@ import { z } from "zod";
 import { db } from "@/db";
 import { appointmentsTable, doctorsTable } from "@/db/schema";
 import { generateTimeSlots } from "@/helpers/generate-time-slots";
-import { getUserAuthenticated } from "@/helpers/user-auth";
-import { actionClient } from "@/lib/safe-actions";
+import { protectedWithClinicActionClient } from "@/lib/safe-actions";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export const getAvailableTimes = actionClient
+export const getAvailableTimes = protectedWithClinicActionClient
   .schema(
     z.object({
       doctorId: z.string(),
       date: z.string().date(),
     }),
   )
-  .action(async ({ parsedInput }) => {
-    const { user } = await getUserAuthenticated();
-
-    if (!user) {
-      throw new Error("Usuário não autenticado");
-    }
-
-    if (!user.clinic) {
-      throw new Error("Clínica não encontrada");
-    }
-
+  .action(async ({ parsedInput: data }) => {
     const doctor = await db.query.doctorsTable.findFirst({
-      where: eq(doctorsTable.id, parsedInput.doctorId),
+      where: eq(doctorsTable.id, data.doctorId),
     });
 
     if (!doctor) {
       throw new Error("Médico não encontrado");
     }
 
-    const selectedDayOfWeek = dayjs(parsedInput.date).day();
+    const selectedDayOfWeek = dayjs(data.date).day();
 
     const doctorIsAvailable =
       selectedDayOfWeek >= doctor.availableFromWeekDay &&
@@ -50,12 +39,12 @@ export const getAvailableTimes = actionClient
     if (!doctorIsAvailable) return [];
 
     const appointments = await db.query.appointmentsTable.findMany({
-      where: eq(appointmentsTable.doctorId, parsedInput.doctorId),
+      where: eq(appointmentsTable.doctorId, data.doctorId),
     });
 
     const appointmentsOnSelectedDate = appointments
       .filter((appointment) => {
-        return dayjs(appointment.date).isSame(parsedInput.date, "day");
+        return dayjs(appointment.date).isSame(data.date, "day");
       })
       .map((appointment) => dayjs(appointment.date).format("HH:mm:ss"));
 

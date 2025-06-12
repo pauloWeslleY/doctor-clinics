@@ -20,38 +20,36 @@ const CreateClinicForm = () => {
   const { onSubmit, form, isPendingCreateClinicAction } = useClinicForm();
 
   return (
-    <>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nome</FormLabel>
-                <FormControl>
-                  <Input placeholder="Digite o nome" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nome</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Digite o nome" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <DialogFooter>
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isPendingCreateClinicAction}
-            >
-              {isPendingCreateClinicAction && (
-                <Loader2Icon className="h-4 w-4 animate-spin" />
-              )}
-              Criar clínica
-            </Button>
-          </DialogFooter>
-        </form>
-      </Form>
-    </>
+        <DialogFooter>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isPendingCreateClinicAction}
+          >
+            {isPendingCreateClinicAction && (
+              <Loader2Icon className="h-4 w-4 animate-spin" />
+            )}
+            Criar clínica
+          </Button>
+        </DialogFooter>
+      </form>
+    </Form>
   );
 };
 

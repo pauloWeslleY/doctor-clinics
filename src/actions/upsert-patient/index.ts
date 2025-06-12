@@ -4,24 +4,13 @@ import { revalidatePath } from "next/cache";
 
 import { db } from "@/db";
 import { patientsTable } from "@/db/schema";
-import { getUserAuthenticated } from "@/helpers/user-auth";
-import { actionClient } from "@/lib/safe-actions";
+import { protectedWithClinicActionClient } from "@/lib/safe-actions";
 
 import { UpsertPatientSchema } from "./upsert-patient.action.schema";
 
-export const upsertPatient = actionClient
+export const upsertPatient = protectedWithClinicActionClient
   .schema(UpsertPatientSchema)
-  .action(async ({ parsedInput: data }) => {
-    const { user } = await getUserAuthenticated();
-
-    if (!user) {
-      throw new Error("Não autorizado");
-    }
-
-    if (!user.clinic?.id) {
-      throw new Error("Clínica não encontrada");
-    }
-
+  .action(async ({ parsedInput: data, ctx: { user } }) => {
     await db
       .insert(patientsTable)
       .values({

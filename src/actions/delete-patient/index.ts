@@ -6,28 +6,17 @@ import { z } from "zod";
 
 import { db } from "@/db";
 import { patientsTable } from "@/db/schema";
-import { getUserAuthenticated } from "@/helpers/user-auth";
-import { actionClient } from "@/lib/safe-actions";
+import { protectedWithClinicActionClient } from "@/lib/safe-actions";
 
-export const deletePatient = actionClient
+export const deletePatient = protectedWithClinicActionClient
   .schema(
     z.object({
       id: z.string().uuid(),
     }),
   )
-  .action(async ({ parsedInput }) => {
-    const { user } = await getUserAuthenticated();
-
-    if (!user) {
-      throw new Error("Usuário não autenticado");
-    }
-
-    if (!user.clinic) {
-      throw new Error("Clínica não encontrada");
-    }
-
+  .action(async ({ parsedInput: data, ctx: { user } }) => {
     const patient = await db.query.patientsTable.findFirst({
-      where: eq(patientsTable.id, parsedInput.id),
+      where: eq(patientsTable.id, data.id),
     });
 
     if (!patient) {
@@ -38,6 +27,6 @@ export const deletePatient = actionClient
       throw new Error("Paciente não encontrado");
     }
 
-    await db.delete(patientsTable).where(eq(patientsTable.id, parsedInput.id));
+    await db.delete(patientsTable).where(eq(patientsTable.id, data.id));
     revalidatePath("/patients");
   });
