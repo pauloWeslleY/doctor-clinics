@@ -21,7 +21,9 @@ export const getDoctors = async () => {
     redirect(Routes.Plans);
   }
 
-  return await db.query.doctorsTable.findMany({
+  const doctors = await db.query.doctorsTable.findMany({
     where: eq(doctorsTable.clinicId, user.clinic.id),
   });
+
+  return { doctors };
 };
